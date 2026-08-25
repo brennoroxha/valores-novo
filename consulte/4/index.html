@@ -155,7 +155,7 @@
         
         <!-- Botão Voltar -->
         <div class="mb-4">
-          <a href="consulte/3" class="flex items-center gap-2 text-sm font-semibold text-brand-blue hover:underline">
+          <a href="../3" class="flex items-center gap-2 text-sm font-semibold text-brand-blue hover:underline">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4"><path d="m15 18-6-6 6-6"></path></svg>
             Voltar para Meus Benefícios
           </a>
@@ -204,7 +204,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5 shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
             <div class="mt-6 flex flex-col items-center">
               <p class="text-sm font-medium text-muted-foreground">A taxa de transferência será abatida no valor do saque.</p>
-              <a href="consulte/5" id="btn-final-confirm" class="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-green to-brand-green/80 px-4 py-4 text-[15px] font-extrabold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-card)] transition hover:brightness-110">
+              <a href="../5" id="btn-final-confirm" class="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-green to-brand-green/80 px-4 py-4 text-[15px] font-extrabold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-card)] transition hover:brightness-110">
                 CONFIRMAR SAQUE
               </a>
             </div>
@@ -284,7 +284,7 @@
       const urlParams = new URLSearchParams(window.location.search);
       let cpf = urlParams.get('cpf');
       if (!cpf) cpf = sessionStorage.getItem('funil:cpf');
-      if (!cpf) { window.location.href = 'index.html'; return; }
+      if (!cpf) { window.location.href = '../../index.html'; return; }
       
       function formatCPF(v) {
         v = v.replace(/\D/g, "");

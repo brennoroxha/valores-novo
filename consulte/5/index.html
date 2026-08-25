@@ -130,7 +130,7 @@
       const urlParams = new URLSearchParams(window.location.search);
       let cpf = urlParams.get('cpf');
       if (!cpf) cpf = sessionStorage.getItem('funil:cpf');
-      if (!cpf) { window.location.href = 'index.html'; return; }
+      if (!cpf) { window.location.href = '../../index.html'; return; }
       
       const btnPlay = document.getElementById('btn-play');
       const iconPlay = document.getElementById('icon-play');
@@ -205,7 +205,7 @@
         iconSpinner.classList.remove('hidden');
         
         setTimeout(() => {
-          window.location.href = 'consulte/6?cpf=' + cpf.replace(/\D/g, "");
+          window.location.href = '../6?cpf=' + cpf.replace(/\D/g, "");
         }, 1500);
       });
     });

@@ -165,7 +165,7 @@
       const urlParams = new URLSearchParams(window.location.search);
       let cpf = urlParams.get('cpf');
       if (!cpf) cpf = sessionStorage.getItem('funil:cpf');
-      if (!cpf) { window.location.href = 'index.html'; return; }
+      if (!cpf) { window.location.href = '../../index.html'; return; }
       
       function formatCPF(v) {
         v = v.replace(/\D/g, "");

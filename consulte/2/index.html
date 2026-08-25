@@ -207,7 +207,7 @@
       }
       
       if (!cpf) {
-        window.location.href = 'index.html';
+        window.location.href = '../../index.html';
         return;
       }
       
@@ -221,7 +221,7 @@
       document.getElementById('display-cpf').textContent = formatCPF(cpf);
       
       // Atualiza URL do botão Saque
-      document.getElementById('btn-saque').href = 'consulte/3?cpf=' + cpf.replace(/\D/g, "");
+      document.getElementById('btn-saque').href = '../3?cpf=' + cpf.replace(/\D/g, "");
 
       // Video lógica
       const video = document.getElementById('report-video');
