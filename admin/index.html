@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Painel de Controle</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#0047AB', // Azul gov
+                            navy: '#1A237E', // Azul escuro
+                            green: '#2E7D32', // Verde gov
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased hidden" id="app-container">
+    
+    <!-- Tela de Login -->
+    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-95 hidden">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md mx-4 transform transition-all">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-blue/10 mb-4">
+                    <i data-lucide="shield-check" class="w-8 h-8 text-brand-blue"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-900">Acesso Restrito</h1>
+                <p class="text-gray-500 text-sm mt-2">Painel Administrativo Valores</p>
+            </div>
+            
+            <form id="login-form" class="space-y-5">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
+                    <input type="email" id="email" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition-all">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+                    <input type="password" id="password" required class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition-all">
+                </div>
+                <div id="login-error" class="hidden bg-red-50 text-red-600 p-3 rounded-lg text-sm flex items-center gap-2">
+                    <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i>
+                    <span id="login-error-text">Credenciais inválidas.</span>
+                </div>
+                <button type="submit" id="btn-login" class="w-full bg-brand-blue text-white font-bold py-3 px-4 rounded-xl hover:bg-brand-navy transition-colors flex justify-center items-center gap-2">
+                    <span>Entrar</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Layout Principal -->
+    <div id="dashboard-screen" class="min-h-screen flex flex-col md:flex-row hidden">
+        
+        <!-- Sidebar -->
+        <aside class="w-full md:w-64 bg-brand-navy text-white flex-shrink-0">
+            <div class="p-6 border-b border-white/10 flex items-center gap-3">
+                <i data-lucide="layout-dashboard" class="w-6 h-6"></i>
+                <span class="text-xl font-bold tracking-wide">Painel Admin</span>
+            </div>
+            <nav class="p-4 space-y-2">
+                <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/10 text-white transition-colors">
+                    <i data-lucide="pie-chart" class="w-5 h-5"></i>
+                    <span class="font-medium">Dashboard</span>
+                </button>
+                <button onclick="switchTab('pedidos')" id="nav-pedidos" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-300 transition-colors">
+                    <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                    <span class="font-medium">Pedidos</span>
+                </button>
+                <button onclick="switchTab('gateways')" id="nav-gateways" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-300 transition-colors">
+                    <i data-lucide="credit-card" class="w-5 h-5"></i>
+                    <span class="font-medium">Gateways</span>
+                </button>
+            </nav>
+            <div class="p-4 mt-auto">
+                <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-500/20 text-red-300 transition-colors">
+                    <i data-lucide="log-out" class="w-5 h-5"></i>
+                    <span class="font-medium">Sair</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 bg-gray-50 p-6 md:p-8 overflow-y-auto">
+            
+            <!-- Dashboard Tab -->
+            <div id="tab-dashboard" class="tab-content">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Visão Geral</h2>
+                        <p class="text-gray-500">Acompanhe as métricas do seu funil.</p>
+                    </div>
+                    <button onclick="fetchStats()" class="p-2 bg-white rounded-full shadow-sm hover:shadow-md text-gray-500 transition-all">
+                        <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <!-- Card 1 -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex items-center gap-4">
+                        <div class="p-3 bg-blue-50 text-blue-600 rounded-xl">
+                            <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Total de Pedidos</p>
+                            <h3 class="text-3xl font-bold text-gray-900" id="stat-total">0</h3>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex items-center gap-4">
+                        <div class="p-3 bg-green-50 text-green-600 rounded-xl">
+                            <i data-lucide="check-circle" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Pedidos Pagos</p>
+                            <h3 class="text-3xl font-bold text-gray-900" id="stat-pagos">0</h3>
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex items-center gap-4">
+                        <div class="p-3 bg-yellow-50 text-yellow-600 rounded-xl">
+                            <i data-lucide="clock" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500 font-medium">Pedidos Pendentes</p>
+                            <h3 class="text-3xl font-bold text-gray-900" id="stat-pendentes">0</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pedidos Tab -->
+            <div id="tab-pedidos" class="tab-content hidden">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Gerenciar Pedidos</h2>
+                        <p class="text-gray-500">Visualize e modifique o status dos leads.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="fetchPedidos()" class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            <i data-lucide="refresh-cw" class="w-4 h-4"></i> Atualizar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 border-b border-gray-100">
+                                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Data</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Cliente</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Contato</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">IP</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-pedidos" class="divide-y divide-gray-100 text-sm">
+                                <!-- Preenchido via JS -->
+                                <tr>
+                                    <td colspan="6" class="px-6 py-8 text-center text-gray-500">Carregando...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gateways Tab -->
+            <div id="tab-gateways" class="tab-content hidden">
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900">Gateways de Pagamento</h2>
+                    <p class="text-gray-500">Configure qual provedor processará os pagamentos.</p>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 max-w-xl">
+                    <div class="space-y-4">
+                        <label class="flex items-center justify-between p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <input type="radio" name="gateway" value="suitpay" class="w-5 h-5 text-brand-blue focus:ring-brand-blue">
+                                <div>
+                                    <span class="block font-bold text-gray-900">SuitPay</span>
+                                    <span class="block text-xs text-gray-500">Integração padrão via PIX</span>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <label class="flex items-center justify-between p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <input type="radio" name="gateway" value="perfectpay" class="w-5 h-5 text-brand-blue focus:ring-brand-blue">
+                                <div>
+                                    <span class="block font-bold text-gray-900">PerfectPay</span>
+                                    <span class="block text-xs text-gray-500">Processamento em alta conversão</span>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="mt-6">
+                        <button onclick="salvarGateway()" class="bg-brand-blue text-white font-bold py-2 px-6 rounded-lg hover:bg-brand-navy transition-colors flex items-center gap-2">
+                            <i data-lucide="save" class="w-4 h-4"></i> Salvar Configuração
+                        </button>
+                    </div>
+                    <p id="gateway-msg" class="mt-3 text-sm text-green-600 hidden">Configuração salva com sucesso!</p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/admin.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

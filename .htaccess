@@ -1,0 +1,8 @@
+<IfModule mod_rewrite.c>
+    Options +FollowSymLinks
+    RewriteEngine On
+    RewriteRule ^consulte/(css|js|images|audio|fonts)/(.*)$ $1/$2 [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^consulte/([0-9]+)/?$ passo$1.html [L,QSA]
+</IfModule>
