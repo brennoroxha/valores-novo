@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Painel de Controle</title>
+    <script>
+        if (window.location.pathname.match(/\/admin$/)) {
+            window.location.replace(window.location.pathname + '/');
+        }
+    </script>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -26,12 +31,12 @@
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
-    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="/admin/css/admin.css">
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans antialiased hidden" id="app-container">
+<body class="bg-gray-50 text-gray-800 font-sans antialiased" id="app-container">
     
     <!-- Tela de Login -->
-    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-95 hidden">
+    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-95">
         <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md mx-4 transform transition-all">
             <div class="text-center mb-8">
                 <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-blue/10 mb-4">
@@ -222,7 +227,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="js/admin.js"></script>
+    <script src="/admin/js/admin.js"></script>
     <script>
         lucide.createIcons();
     </script>
