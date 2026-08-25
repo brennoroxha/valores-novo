@@ -84,6 +84,10 @@
                     <i data-lucide="credit-card" class="w-5 h-5"></i>
                     <span class="font-medium">Gateways</span>
                 </button>
+                <button onclick="switchTab('bloqueios')" id="nav-bloqueios" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-300 transition-colors">
+                    <i data-lucide="shield-off" class="w-5 h-5"></i>
+                    <span class="font-medium">Bloqueios</span>
+                </button>
             </nav>
             <div class="p-4 mt-auto">
                 <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-500/20 text-red-300 transition-colors">
@@ -144,13 +148,30 @@
 
             <!-- Pedidos Tab -->
             <div id="tab-pedidos" class="tab-content hidden">
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
                     <div>
                         <h2 class="text-2xl font-bold text-gray-900">Gerenciar Pedidos</h2>
                         <p class="text-gray-500">Visualize e modifique o status dos leads.</p>
                     </div>
-                    <div class="flex gap-2">
-                        <button onclick="fetchPedidos()" class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50">
+                    <div class="flex flex-wrap gap-2 items-center">
+                        <select id="filter-date" onchange="toggleCustomDate()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-700 bg-white shadow-sm outline-none focus:ring-2 focus:ring-brand-blue cursor-pointer">
+                            <option value="total">Total (Todos)</option>
+                            <option value="hoje">Hoje</option>
+                            <option value="ontem">Ontem</option>
+                            <option value="7dias">Últimos 7 dias</option>
+                            <option value="personalizado">Personalizado</option>
+                        </select>
+                        
+                        <div id="custom-date-container" class="hidden items-center gap-2 bg-white border border-gray-200 rounded-lg px-2 py-1 shadow-sm">
+                            <input type="date" id="date-start" class="border-none text-sm text-gray-700 outline-none focus:ring-0 cursor-pointer">
+                            <span class="text-xs text-gray-400">até</span>
+                            <input type="date" id="date-end" class="border-none text-sm text-gray-700 outline-none focus:ring-0 cursor-pointer">
+                            <button onclick="fetchPedidos()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 p-1.5 rounded-md transition-colors" title="Aplicar data personalizada">
+                                <i data-lucide="filter" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+
+                        <button onclick="fetchPedidos()" class="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
                             <i data-lucide="refresh-cw" class="w-4 h-4"></i> Atualizar
                         </button>
                     </div>
@@ -201,13 +222,39 @@
                         
                         <label class="flex items-center justify-between p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
                             <div class="flex items-center gap-3">
-                                <input type="radio" name="gateway" value="perfectpay" class="w-5 h-5 text-brand-blue focus:ring-brand-blue">
+                                <input type="radio" name="gateway" value="perfectpay" onchange="toggleGatewaySettings()" class="w-5 h-5 text-brand-blue focus:ring-brand-blue">
                                 <div>
                                     <span class="block font-bold text-gray-900">PerfectPay</span>
                                     <span class="block text-xs text-gray-500">Processamento em alta conversão</span>
                                 </div>
                             </div>
                         </label>
+
+                        <label class="flex items-center justify-between p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <input type="radio" name="gateway" value="freepay" onchange="toggleGatewaySettings()" class="w-5 h-5 text-brand-blue focus:ring-brand-blue">
+                                <div>
+                                    <span class="block font-bold text-gray-900">FreePay</span>
+                                    <span class="block text-xs text-gray-500">Gateway Oficial (Recomendado)</span>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div id="freepay-settings" class="mt-4 p-4 border border-gray-200 rounded-xl bg-gray-50 hidden space-y-4">
+                        <h3 class="font-bold text-gray-800 text-sm mb-2">Configurações FreePay</h3>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Public Key</label>
+                            <input type="text" id="freepay-public-key" placeholder="Insira sua Public Key" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-blue outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Secret Key</label>
+                            <input type="password" id="freepay-secret-key" placeholder="Insira sua Secret Key" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-blue outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Valor do PIX (Taxa) (ex: 27.90)</label>
+                            <input type="number" step="0.01" id="freepay-amount" placeholder="27.90" class="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-blue outline-none text-sm">
+                        </div>
                     </div>
                     <div class="mt-6">
                         <button onclick="salvarGateway()" class="bg-brand-blue text-white font-bold py-2 px-6 rounded-lg hover:bg-brand-navy transition-colors flex items-center gap-2">
@@ -215,6 +262,49 @@
                         </button>
                     </div>
                     <p id="gateway-msg" class="mt-3 text-sm text-green-600 hidden">Configuração salva com sucesso!</p>
+                </div>
+            </div>
+
+            <!-- Bloqueios Tab -->
+            <div id="tab-bloqueios" class="tab-content hidden">
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900">Bloqueios de IP</h2>
+                    <p class="text-gray-500">Gerencie os endereços IP que estão impedidos de acessar as páginas do funil.</p>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8 max-w-xl">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">Bloquear IP Manualmente</h3>
+                    <div class="flex flex-col sm:flex-row gap-4 items-end">
+                        <div class="flex-1 w-full">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Endereço IP</label>
+                            <input type="text" id="input-block-ip" placeholder="Ex: 192.168.0.1" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-blue outline-none">
+                        </div>
+                        <div class="flex-1 w-full">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Motivo</label>
+                            <input type="text" id="input-block-motivo" placeholder="Opcional" class="w-full px-4 py-2.5 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-blue outline-none">
+                        </div>
+                        <button onclick="bloquearIPManual()" class="w-full sm:w-auto bg-red-600 text-white font-bold py-2.5 px-6 rounded-xl hover:bg-red-700 transition-colors flex items-center justify-center gap-2">
+                            <i data-lucide="ban" class="w-4 h-4"></i> Bloquear
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 border-b border-gray-100">
+                                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Endereço IP</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Motivo</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Data</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-bloqueios" class="divide-y divide-gray-100 text-sm">
+                                <!-- Preenchido via JS -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 

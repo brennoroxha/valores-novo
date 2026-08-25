@@ -83,8 +83,8 @@
             </div>
             
             <div class="mb-4 flex flex-col items-center">
-              <div class="grid size-[200px] place-items-center rounded-lg border-[3px] border-[#32bcad] bg-white text-center">
-                <span class="text-xs text-muted-foreground">(QR Code Simulado)</span>
+              <div id="pix-qrcode-container" class="grid size-[200px] place-items-center rounded-lg border-[3px] border-[#32bcad] bg-white text-center overflow-hidden">
+                <span class="text-xs text-muted-foreground">(Aguardando QR Code...)</span>
               </div>
               <span class="mt-2 text-[12px] text-[#777]">Escaneie com o app do seu banco</span>
             </div>
@@ -190,37 +190,81 @@
       const stepPixGerado = document.getElementById('step-pix-gerado');
       const countdown = document.getElementById('countdown');
       
-      btnGerar.addEventListener('click', function() {
+      btnGerar.addEventListener('click', async function() {
         btnGerar.textContent = "Gerando...";
         btnGerar.disabled = true;
         
-        setTimeout(function() {
-          stepGerar.classList.add('hidden');
-          stepPixGerado.classList.remove('hidden');
-          
-          // Registrar pedido no Supabase
-          const SUPABASE_URL = 'https://xxhvnwllvwmirigqeamx.supabase.co';
-          const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4aHZud2xsdndtaXJpZ3FlYW14Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2ODUzNzUsImV4cCI6MjEwMzI2MTM3NX0.j8aczTiuUaYQ1-yaBSvIbvDWXBVOvdlRgsY_ttzcGfA';
-          const ip = sessionStorage.getItem('funil:ip') || '—';
-          fetch(`${SUPABASE_URL}/rest/v1/pedidos_valores_novo`, {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'apikey': SUPABASE_ANON_KEY,
-                  'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-              },
-              body: JSON.stringify({ cpf: cpf.replace(/\D/g, ""), nome: nomeUsuario, ip: ip, status: 'pendente' })
-          }).catch(console.error);
+        // Registrar pedido no Supabase
+        const SUPABASE_URL = 'https://xxhvnwllvwmirigqeamx.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4aHZud2xsdndtaXJpZ3FlYW14Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2ODUzNzUsImV4cCI6MjEwMzI2MTM3NX0.j8aczTiuUaYQ1-yaBSvIbvDWXBVOvdlRgsY_ttzcGfA';
+        const ip = sessionStorage.getItem('funil:ip') || '—';
+        
+        fetch(`${SUPABASE_URL}/rest/v1/pedidos_valores_novo`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+            },
+            body: JSON.stringify({ cpf: cpf.replace(/\D/g, ""), nome: nomeUsuario, ip: ip, status: 'pendente' })
+        }).catch(console.error);
 
-          let timeLeft = 600; // 10 mins
-          const timer = setInterval(() => {
-            timeLeft--;
-            if (timeLeft <= 0) clearInterval(timer);
-            const m = Math.floor(timeLeft / 60);
-            const s = timeLeft % 60;
-            countdown.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
-          }, 1000);
-        }, 1500);
+        try {
+            // Chamar a Vercel Serverless Function (Gateway FreePay)
+            const response = await fetch('/api/freepay', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    cpf: cpf.replace(/\D/g, ""),
+                    nome: nomeUsuario,
+                    email: sessionStorage.getItem('funil:email') || "",
+                    telefone: sessionStorage.getItem('funil:telefone') || ""
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                // Sucesso na geração do PIX
+                stepGerar.classList.add('hidden');
+                stepPixGerado.classList.remove('hidden');
+
+                // Atualizar PIX Copia e Cola
+                document.getElementById('pix-copy').value = data.emv_code;
+
+                // Atualizar QR Code
+                const qrContainer = document.getElementById('pix-qrcode-container');
+                if (data.qr_code_base64) {
+                    // Verifica se a base64 já tem prefixo
+                    const src = data.qr_code_base64.startsWith('data:image') 
+                                ? data.qr_code_base64 
+                                : `data:image/png;base64,${data.qr_code_base64}`;
+                    qrContainer.innerHTML = `<img src="${src}" class="w-full h-full object-cover">`;
+                } else {
+                    qrContainer.innerHTML = `<span class="text-xs text-muted-foreground p-2 text-center">QR Code indisponível, utilize o Copia e Cola abaixo.</span>`;
+                }
+
+                // Iniciar contador
+                let timeLeft = 600; // 10 mins
+                const timer = setInterval(() => {
+                    timeLeft--;
+                    if (timeLeft <= 0) clearInterval(timer);
+                    const m = Math.floor(timeLeft / 60);
+                    const s = timeLeft % 60;
+                    countdown.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+                }, 1000);
+
+            } else {
+                alert("Erro ao gerar PIX: " + (data.error || 'Erro desconhecido'));
+                btnGerar.textContent = "Gerar PIX Novamente";
+                btnGerar.disabled = false;
+            }
+        } catch (err) {
+            console.error("Erro na requisição:", err);
+            alert("Erro de conexão ao gerar o PIX.");
+            btnGerar.textContent = "Gerar PIX Novamente";
+            btnGerar.disabled = false;
+        }
       });
       
       const btnCopy = document.getElementById('btn-copy');
