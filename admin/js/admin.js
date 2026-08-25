@@ -1,7 +1,7 @@
 const SUPABASE_URL = 'https://xxhvnwllvwmirigqeamx.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4aHZud2xsdndtaXJpZ3FlYW14Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2ODUzNzUsImV4cCI6MjEwMzI2MTM3NX0.j8aczTiuUaYQ1-yaBSvIbvDWXBVOvdlRgsY_ttzcGfA';
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Elementos da UI
 const appContainer = document.getElementById('app-container');
@@ -17,7 +17,7 @@ let pedidosCachados = [];
 
 // Checar sessão ao carregar
 async function checkSession() {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await supabaseClient.auth.getSession();
     appContainer.classList.remove('hidden');
     if (session) {
         showDashboard();
@@ -49,7 +49,7 @@ loginForm.addEventListener('submit', async (e) => {
     btn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i>';
     loginError.classList.add('hidden');
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
         email: email,
         password: password,
     });
@@ -66,7 +66,7 @@ loginForm.addEventListener('submit', async (e) => {
 
 // Logout
 async function logout() {
-    await supabase.auth.signOut();
+    await supabaseClient.auth.signOut();
     showLogin();
 }
 
@@ -161,7 +161,7 @@ function renderTable() {
 // Ações
 async function marcarPago(id) {
     if(!confirm("Marcar este pedido como PAGO?")) return;
-    const { error } = await supabase.from('pedidos_valores_novo').update({ status: 'pago' }).eq('id', id);
+    const { error } = await supabaseClient.from('pedidos_valores_novo').update({ status: 'pago' }).eq('id', id);
     if (!error) {
         fetchPedidos();
         fetchStats();
@@ -172,7 +172,7 @@ async function marcarPago(id) {
 
 async function removerPedido(id) {
     if(!confirm("Tem certeza que deseja excluir permanentemente este pedido?")) return;
-    const { error } = await supabase.from('pedidos_valores_novo').delete().eq('id', id);
+    const { error } = await supabaseClient.from('pedidos_valores_novo').delete().eq('id', id);
     if (!error) {
         fetchPedidos();
         fetchStats();
@@ -189,7 +189,7 @@ async function bloquearIP(ip) {
     const motivo = prompt(`Deseja bloquear o IP ${ip}? Informe um motivo (opcional):`, "Fraude suspeita");
     if (motivo === null) return;
 
-    const { error } = await supabase.from('blocked_ips_valores_novo').insert({ ip: ip, motivo: motivo });
+    const { error } = await supabaseClient.from('blocked_ips_valores_novo').insert({ ip: ip, motivo: motivo });
     if (!error || error.code === '23505') { // 23505 é erro de unicidade (já bloqueado)
         alert(`IP ${ip} bloqueado com sucesso!`);
     } else {
@@ -199,7 +199,7 @@ async function bloquearIP(ip) {
 
 // Configurações (Gateway)
 async function fetchConfig() {
-    const { data } = await supabase.from('config_valores_novo').select('valor').eq('chave', 'active_gateway').single();
+    const { data } = await supabaseClient.from('config_valores_novo').select('valor').eq('chave', 'active_gateway').single();
     if (data) {
         const radio = document.querySelector(`input[name="gateway"][value="${data.valor}"]`);
         if (radio) radio.checked = true;
@@ -214,7 +214,7 @@ async function salvarGateway() {
     btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Salvando...';
     lucide.createIcons();
 
-    const { error } = await supabase.from('config_valores_novo').upsert({ chave: 'active_gateway', valor: selected.value });
+    const { error } = await supabaseClient.from('config_valores_novo').upsert({ chave: 'active_gateway', valor: selected.value });
     
     btn.innerHTML = '<i data-lucide="save" class="w-4 h-4"></i> Salvar Configuração';
     lucide.createIcons();
