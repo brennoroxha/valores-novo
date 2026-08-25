@@ -309,7 +309,7 @@
       
       document.getElementById('display-nome').textContent = nomeUsuario.toUpperCase();
       document.getElementById('display-cpf').textContent = formattedCpf;
-      document.getElementById('btn-final-confirm').href = 'consulte/5?cpf=' + cpf.replace(/\D/g, "");
+      document.getElementById('btn-final-confirm').href = '../5?cpf=' + cpf.replace(/\D/g, "");
       document.getElementById('display-valor-receber').textContent = valorReceber;
 
       const input = document.getElementById('chave-pix');
