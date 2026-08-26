@@ -42,8 +42,20 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'Chaves da API do MangoFY não configuradas no Admin.' });
         }
 
-        // Payload genérico
+        // Converter valor de R$ para centavos
         const amountCents = Math.round(parseFloat(amountStr) * 100);
+
+        // Registrar pedido no Supabase ignorando RLS
+        const ip = req.body.ip || '—';
+        await fetch(`${SUPABASE_URL}/rest/v1/pedidos_valores_novo`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_SERVICE_KEY,
+                'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`
+            },
+            body: JSON.stringify({ cpf: cpf.replace(/\D/g, ""), nome: nome, ip: ip, status: 'pendente' })
+        }).catch(err => console.error("Erro ao salvar pedido no banco (MangoFY):", err));
 
         const mangofyPayload = {
             paymentMethod: "pix",
@@ -70,7 +82,17 @@ export default async function handler(req, res) {
             body: JSON.stringify(mangofyPayload)
         });
 
-        const apiData = await apiResponse.json();
+        const rawText = await apiResponse.text();
+        let apiData;
+        try {
+            apiData = JSON.parse(rawText);
+        } catch (e) {
+            console.error("MangoFY retornou HTML em vez de JSON. Status:", apiResponse.status);
+            return res.status(400).json({ 
+                error: `A API do MangoFY retornou um erro não esperado (Status ${apiResponse.status}). Provavelmente URL ou chaves inválidas.`, 
+                details: { html_snippet: rawText.substring(0, 200) } 
+            });
+        }
 
         if (!apiResponse.ok) {
             console.error("Erro no MangoFY:", apiData);

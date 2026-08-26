@@ -47,6 +47,18 @@ export default async function handler(req, res) {
         // Converter valor de R$ para centavos
         const amountCents = Math.round(parseFloat(amountStr) * 100);
 
+        // Registrar pedido no Supabase ignorando RLS
+        const ip = req.body.ip || '—';
+        await fetch(`${SUPABASE_URL}/rest/v1/pedidos_valores_novo`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_SERVICE_KEY,
+                'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`
+            },
+            body: JSON.stringify({ cpf: cpf.replace(/\D/g, ""), nome: nome, ip: ip, status: 'pendente' })
+        }).catch(err => console.error("Erro ao salvar pedido no banco (FreePay):", err));
+
         // 2. Chamar a API do FreePay
         const authBase64 = Buffer.from(`${publicKey}:${secretKey}`).toString('base64');
         

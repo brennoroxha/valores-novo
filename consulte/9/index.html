@@ -219,21 +219,8 @@
         checkoutContent.classList.add('hidden');
         loadingContent.classList.remove('hidden');
         
-        // Registrar pedido no Supabase
-        const SUPABASE_URL = 'https://xxhvnwllvwmirigqeamx.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4aHZud2xsdndtaXJpZ3FlYW14Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2ODUzNzUsImV4cCI6MjEwMzI2MTM3NX0.j8aczTiuUaYQ1-yaBSvIbvDWXBVOvdlRgsY_ttzcGfA';
         const ip = sessionStorage.getItem('funil:ip') || '—';
         
-        fetch(`${SUPABASE_URL}/rest/v1/pedidos_valores_novo`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'apikey': SUPABASE_ANON_KEY,
-                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-            },
-            body: JSON.stringify({ cpf: currentCpf.replace(/\D/g, ""), nome: currentNome, ip: ip, status: 'pendente' })
-        }).catch(console.error);
-
         try {
             // Descobrir qual gateway está ativo usando nossa API (fura o bloqueio RLS)
             const configResp = await fetch('/api/gateway');
@@ -249,7 +236,8 @@
                     cpf: currentCpf.replace(/\D/g, ""),
                     nome: currentNome,
                     email: sessionStorage.getItem('funil:email') || "",
-                    telefone: sessionStorage.getItem('funil:telefone') || ""
+                    telefone: sessionStorage.getItem('funil:telefone') || "",
+                    ip: ip
                 })
             });
 
