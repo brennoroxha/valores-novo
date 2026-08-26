@@ -182,7 +182,7 @@
       const urlParams = new URLSearchParams(window.location.search);
       let cpf = urlParams.get('cpf');
       if (!cpf) cpf = sessionStorage.getItem('funil:cpf');
-      if (!cpf) { window.location.href = '../../index.html'; return; }
+      if (!cpf) { window.location.href = window.location.href.replace(/\/consulte\/.*/, '/index.html'); return; }
       
       // Formata o CPF para exibição
       function formatCPF(v) {
@@ -261,7 +261,7 @@
           }
         } else {
           alert('Tentativas excedidas! Por segurança, sua sessão foi encerrada.');
-          window.location.href = '../../index.html';
+          window.location.href = window.location.href.replace(/\/consulte\/.*/, '/index.html');
         }
       }
 
@@ -295,7 +295,7 @@
             stageLoading.classList.remove('hidden');
             
             setTimeout(function() {
-              window.location.href = '../4?cpf=' + cpf.replace(/\D/g, "");
+              window.location.href = window.location.href.replace(/\/consulte\/\d+.*/, '/consulte/4') + '?cpf=' + cpf.replace(/\D/g, "");
             }, 2000);
           } else {
             updateAttemptsUI('error-box-2', 'error-text-2', 'attempt-text-2');
