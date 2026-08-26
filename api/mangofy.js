@@ -64,7 +64,7 @@ export default async function handler(req, res) {
             installments: 1,
             payment_amount: amountCents,
             shipping_amount: 0,
-            postback_url: `https://${req.headers.host || 'consultagora.site'}/api/webhook/mangofy`,
+            postback_url: `https://${req.headers.host || 'consultagora.site'}/api/webhook`,
             items: [
                 {
                     title: "Ebook sobre Valores",
