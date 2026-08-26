@@ -72,6 +72,9 @@ export default async function handler(req, res) {
             ],
             pix: {
                 expires_in_days: 1
+            },
+            metadata: {
+                origem: "checkout_valores"
             }
         };
 
