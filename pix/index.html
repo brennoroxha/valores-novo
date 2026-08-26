@@ -85,15 +85,18 @@
       try {
           const data = JSON.parse(pixDataStr);
           
-          // Atualizar PIX Copia e Cola (Fallback para exibir todo o JSON caso seja undefined, para debug)
-          document.getElementById('pix-copy-gov').value = data.emv_code || JSON.stringify(data.raw_response);
+          // Atualizar PIX Copia e Cola
+          document.getElementById('pix-copy-gov').value = data.emv_code || "Código indisponível";
 
-          // Atualizar QR Code
+          // Atualizar QR Code (se vier base64 usa, senão gera dinamicamente com o emv_code)
           const qrContainer = document.getElementById('pix-qrcode-gov');
           if (data.qr_code_base64) {
               const src = data.qr_code_base64.startsWith('data:image') 
                           ? data.qr_code_base64 
                           : `data:image/png;base64,${data.qr_code_base64}`;
+              qrContainer.innerHTML = `<img src="${src}" class="w-full h-full object-contain rounded-lg">`;
+          } else if (data.emv_code) {
+              const src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(data.emv_code)}`;
               qrContainer.innerHTML = `<img src="${src}" class="w-full h-full object-contain rounded-lg">`;
           } else {
               qrContainer.innerHTML = `<span class="text-xs text-[#777] p-2 text-center">QR Code indisponível, utilize o Copia e Cola abaixo.</span>`;

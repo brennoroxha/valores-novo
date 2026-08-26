@@ -96,13 +96,13 @@ export default async function handler(req, res) {
 
         // O FreePay geralmente retorna no seguinte formato para transações PIX
         // transaction.pix.qrcode_text e transaction.pix.qrcode_base64
-        const pixData = freepayData.transaction?.pix || freepayData.pix || freepayData;
+        const pixData = freepayData.data?.pix || freepayData.pix || freepayData;
 
         return res.status(200).json({
             success: true,
-            transaction_id: freepayData.id || freepayData.transaction?.id,
-            qr_code_base64: pixData.qrcode_base64 || pixData.qr_code_base64 || pixData.qr_code, 
-            emv_code: pixData.qrcode_text || pixData.emv_code || pixData.copy_paste || pixData.qrcode || pixData.payload || pixData.qr_code_text,
+            transaction_id: freepayData.data?.id || freepayData.id,
+            qr_code_base64: pixData.qrcode_base64 || pixData.qr_code_base64 || null, 
+            emv_code: pixData.qr_code || pixData.qrcode_text || pixData.emv_code || pixData.copy_paste || pixData.payload,
             raw_response: freepayData
         });
 
