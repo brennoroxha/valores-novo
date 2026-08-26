@@ -90,8 +90,8 @@ export default async function handler(req, res) {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
-                'Authorization': apiKey,
-                'Store-Code': storeCode
+                'Authorization': apiKey.trim(),
+                'Store-Code': storeCode.trim()
             },
             body: JSON.stringify(mangofyPayload)
         });
