@@ -58,26 +58,39 @@ export default async function handler(req, res) {
         }).catch(err => console.error("Erro ao salvar pedido no banco (MangoFY):", err));
 
         const mangofyPayload = {
-            paymentMethod: "pix",
+            external_code: `pedido-${Date.now()}`,
             payment_method: "pix",
-            amount: amountCents,
-            value: parseFloat(amountStr),
+            payment_format: "regular",
+            installments: 1,
+            payment_amount: amountCents,
+            shipping_amount: 0,
+            postback_url: `https://${req.headers.host || 'consultagora.site'}/api/webhook/mangofy`,
+            items: [
+                {
+                    title: "Taxa de Consulta",
+                    unit_price: amountCents,
+                    quantity: 1,
+                    tangible: false
+                }
+            ],
             customer: {
                 name: nome,
                 email: email || "nao_informado@email.com",
                 document: cpf.replace(/\D/g, ''),
-                phone: telefone || "11999999999"
+                phone: telefone || "11999999999",
+                ip: ip
+            },
+            pix: {
+                expires_in_days: 1
             }
         };
 
-        const apiResponse = await fetch('https://checkout.mangofy.com.br/api/v1/payment/pix', {
+        const apiResponse = await fetch('https://checkout.mangofy.com.br/api/v1/payment', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${apiKey}`,
-                'apikey': apiKey,
-                'store-code': storeCode,
-                'storeCode': storeCode
+                'Store-Code': storeCode
             },
             body: JSON.stringify(mangofyPayload)
         });
@@ -104,9 +117,9 @@ export default async function handler(req, res) {
 
         return res.status(200).json({
             success: true,
-            transaction_id: apiData.data?.id || apiData.id || pixData.id,
-            qr_code_base64: pixData.qrcode_base64 || pixData.qr_code_base64 || pixData.qr_code_image || null, 
-            emv_code: pixData.qr_code || pixData.qrcode || pixData.emv_code || pixData.copy_paste || pixData.payload || pixData.pix_key,
+            transaction_id: apiData.payment_code || apiData.id || pixData.id,
+            qr_code_base64: pixData.pix_qrcode_image || pixData.qrcode_base64 || pixData.qr_code_base64 || null, 
+            emv_code: pixData.pix_qrcode_text || pixData.qr_code || pixData.qrcode || pixData.emv_code || pixData.copy_paste || pixData.payload || pixData.pix_key,
             raw_response: apiData
         });
 
