@@ -235,12 +235,10 @@
         }).catch(console.error);
 
         try {
-            // Descobrir qual gateway está ativo
-            const configResp = await fetch(`${SUPABASE_URL}/rest/v1/config_valores_novo?chave=eq.active_gateway&select=valor`, {
-                headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
-            });
+            // Descobrir qual gateway está ativo usando nossa API (fura o bloqueio RLS)
+            const configResp = await fetch('/api/gateway');
             const configData = await configResp.json();
-            const activeGateway = (configData && configData.length > 0) ? configData[0].valor : 'freepay';
+            const activeGateway = configData.active_gateway || 'freepay';
             const apiEndpoint = activeGateway === 'mangofy' ? '/api/mangofy' : '/api/freepay';
 
             // Chamar a Vercel Serverless Function (Gateway Selecionado)
