@@ -5,11 +5,10 @@ export default async function handler(req, res) {
     }
 
     const SUPABASE_URL = 'https://xxhvnwllvwmirigqeamx.supabase.co';
-    // PRECISA SER A SERVICE ROLE KEY PARA LER CONFIGURAÇÕES SEM RLS (Segurança)
-    const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const SUPABASE_SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4aHZud2xsdndtaXJpZ3FlYW14Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2ODUzNzUsImV4cCI6MjEwMzI2MTM3NX0.j8aczTiuUaYQ1-yaBSvIbvDWXBVOvdlRgsY_ttzcGfA';
 
     if (!SUPABASE_SERVICE_KEY) {
-        return res.status(500).json({ error: 'Configuração do Servidor Ausente: SUPABASE_SERVICE_ROLE_KEY não configurada na Vercel.' });
+        return res.status(500).json({ error: 'Chave do Supabase ausente.' });
     }
 
     try {
