@@ -253,7 +253,8 @@
                 // Sucesso na geração do PIX
                 // Armazenar os dados e ir para a rota /pix
                 sessionStorage.setItem('freepay:pix_data', JSON.stringify(data));
-                window.location.href = '../../pix/';
+                const limpaCpf = currentCpf.replace(/\D/g, "");
+                window.location.href = '../../pix/?cpf=' + limpaCpf;
             } else {
                 // Falha -> Volta pro Form e exibe erro
                 loadingContent.classList.add('hidden');
