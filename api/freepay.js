@@ -34,10 +34,7 @@ export default async function handler(req, res) {
             return found ? found.valor : null;
         };
 
-        const activeGateway = getConf('active_gateway');
-        if (activeGateway !== 'freepay') {
-            return res.status(400).json({ error: 'FreePay não é o gateway ativo no momento.' });
-        }
+
 
         const publicKey = getConf('freepay_public_key');
         const secretKey = getConf('freepay_secret_key');
