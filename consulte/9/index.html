@@ -254,8 +254,8 @@
                     countdown.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
                 }, 1000);
 
-            } else {
-                alert("Erro ao gerar PIX: " + (data.error || 'Erro desconhecido'));
+                const det = data.details ? JSON.stringify(data.details) : '';
+                alert("Erro ao gerar PIX: " + (data.error || 'Erro desconhecido') + "\nDetalhes: " + det);
                 btnGerar.textContent = "Gerar PIX Novamente";
                 btnGerar.disabled = false;
             }
