@@ -323,12 +323,14 @@ async function desbloquearIP(ip) {
 function toggleGatewaySettings() {
     const selected = document.querySelector('input[name="gateway"]:checked');
     const fpSettings = document.getElementById('freepay-settings');
-    if (fpSettings) {
-        if (selected && selected.value === 'freepay') {
-            fpSettings.classList.remove('hidden');
-        } else {
-            fpSettings.classList.add('hidden');
-        }
+    const mfSettings = document.getElementById('mangofy-settings');
+    
+    if (fpSettings) fpSettings.classList.add('hidden');
+    if (mfSettings) mfSettings.classList.add('hidden');
+    
+    if (selected) {
+        if (selected.value === 'freepay' && fpSettings) fpSettings.classList.remove('hidden');
+        if (selected.value === 'mangofy' && mfSettings) mfSettings.classList.remove('hidden');
     }
 }
 
@@ -350,7 +352,11 @@ async function fetchConfig() {
         const fpSec = configs.find(c => c.chave === 'freepay_secret_key');
         if (fpSec && document.getElementById('freepay-secret-key')) document.getElementById('freepay-secret-key').value = fpSec.valor;
         
-
+        const mfApi = configs.find(c => c.chave === 'mangofy_api_key');
+        if (mfApi && document.getElementById('mangofy-api-key')) document.getElementById('mangofy-api-key').value = mfApi.valor;
+        
+        const mfStore = configs.find(c => c.chave === 'mangofy_store_code');
+        if (mfStore && document.getElementById('mangofy-store-code')) document.getElementById('mangofy-store-code').value = mfStore.valor;
     }
 }
 
@@ -368,11 +374,13 @@ async function salvarGateway() {
     if (selected.value === 'freepay') {
         const pub = document.getElementById('freepay-public-key')?.value || '';
         const sec = document.getElementById('freepay-secret-key')?.value || '';
-
-        
         updates.push({ chave: 'freepay_public_key', valor: pub });
         updates.push({ chave: 'freepay_secret_key', valor: sec });
-
+    } else if (selected.value === 'mangofy') {
+        const apiKey = document.getElementById('mangofy-api-key')?.value || '';
+        const storeCode = document.getElementById('mangofy-store-code')?.value || '';
+        updates.push({ chave: 'mangofy_api_key', valor: apiKey });
+        updates.push({ chave: 'mangofy_store_code', valor: storeCode });
     }
 
     let hasError = false;

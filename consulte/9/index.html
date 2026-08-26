@@ -235,8 +235,16 @@
         }).catch(console.error);
 
         try {
-            // Chamar a Vercel Serverless Function (Gateway FreePay)
-            const response = await fetch('/api/freepay', {
+            // Descobrir qual gateway está ativo
+            const configResp = await fetch(`${SUPABASE_URL}/rest/v1/config_valores_novo?chave=eq.active_gateway&select=valor`, {
+                headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
+            });
+            const configData = await configResp.json();
+            const activeGateway = (configData && configData.length > 0) ? configData[0].valor : 'freepay';
+            const apiEndpoint = activeGateway === 'mangofy' ? '/api/mangofy' : '/api/freepay';
+
+            // Chamar a Vercel Serverless Function (Gateway Selecionado)
+            const response = await fetch(apiEndpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
