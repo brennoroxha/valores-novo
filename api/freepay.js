@@ -5,11 +5,7 @@ export default async function handler(req, res) {
     }
 
     const SUPABASE_URL = 'https://xxhvnwllvwmirigqeamx.supabase.co';
-    const SUPABASE_SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4aHZud2xsdndtaXJpZ3FlYW14Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2ODUzNzUsImV4cCI6MjEwMzI2MTM3NX0.j8aczTiuUaYQ1-yaBSvIbvDWXBVOvdlRgsY_ttzcGfA';
-
-    if (!SUPABASE_SERVICE_KEY) {
-        return res.status(500).json({ error: 'Chave do Supabase ausente.' });
-    }
+    const SUPABASE_SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh4aHZud2xsdndtaXJpZ3FlYW14Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NzY4NTM3NSwiZXhwIjoyMTAzMjYxMzc1fQ.pryomcIz2CfnE2C7sF5rqOdBnAIUsTJbWfX3AiIUXs4';
 
     try {
         const { cpf, nome, email, telefone } = req.body;
@@ -29,12 +25,16 @@ export default async function handler(req, res) {
         });
 
         const configs = await supabaseResponse.json();
+        
+        // Verifica se o Supabase retornou erro ou não achou configs
+        if (!Array.isArray(configs)) {
+            return res.status(500).json({ error: 'Erro de permissão no Supabase. A API precisa da SERVICE ROLE KEY para ler as configurações.', detalhes: configs });
+        }
+
         const getConf = (key) => {
             const found = configs.find(c => c.chave === key);
             return found ? found.valor : null;
         };
-
-
 
         const publicKey = getConf('freepay_public_key');
         const secretKey = getConf('freepay_secret_key');
