@@ -85,10 +85,11 @@ export default async function handler(req, res) {
             }
         };
 
-        const apiResponse = await fetch('https://checkout.mangofy.com.br/api/v1/payment', {
+        const apiResponse = await fetch('https://checkout.mangofy.com.br/api/v1/payment/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Accept': 'application/json',
                 'Authorization': `Bearer ${apiKey}`,
                 'Store-Code': storeCode
             },
