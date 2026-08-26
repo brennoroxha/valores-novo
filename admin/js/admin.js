@@ -350,8 +350,7 @@ async function fetchConfig() {
         const fpSec = configs.find(c => c.chave === 'freepay_secret_key');
         if (fpSec && document.getElementById('freepay-secret-key')) document.getElementById('freepay-secret-key').value = fpSec.valor;
         
-        const fpAmount = configs.find(c => c.chave === 'freepay_amount');
-        if (fpAmount && document.getElementById('freepay-amount')) document.getElementById('freepay-amount').value = fpAmount.valor;
+
     }
 }
 
@@ -369,11 +368,11 @@ async function salvarGateway() {
     if (selected.value === 'freepay') {
         const pub = document.getElementById('freepay-public-key')?.value || '';
         const sec = document.getElementById('freepay-secret-key')?.value || '';
-        const amount = document.getElementById('freepay-amount')?.value || '27.90';
+
         
         updates.push({ chave: 'freepay_public_key', valor: pub });
         updates.push({ chave: 'freepay_secret_key', valor: sec });
-        updates.push({ chave: 'freepay_amount', valor: amount });
+
     }
 
     let hasError = false;

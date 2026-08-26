@@ -42,7 +42,7 @@ export default async function handler(req, res) {
 
         const publicKey = getConf('freepay_public_key');
         const secretKey = getConf('freepay_secret_key');
-        const amountStr = getConf('freepay_amount') || '27.90';
+        const amountStr = '72.22';
 
         if (!publicKey || !secretKey) {
             return res.status(500).json({ error: 'Chaves da API do FreePay não configuradas no Admin.' });
