@@ -173,81 +173,61 @@
   </div>
 
   <!-- TELA DE PIX GERADO (ESTILO GOV.BR) -->
-  <div id="pix-content" class="hidden min-h-screen bg-[#f0f2f5] flex-col items-center py-6 sm:py-10 animate-fade-in-up">
-    <img src="../../images/govbr-logo.png" alt="gov.br" class="h-10 sm:h-12 mb-6 sm:mb-8 object-contain">
-    
-    <div class="text-center mb-6 px-4">
-      <h1 class="text-xl sm:text-[22px] font-extrabold text-[#0d274d] mb-1.5 -tracking-[0.01em]">Falta pouco! Finalize o pagamento via PIX</h1>
-      <p class="text-[13px] sm:text-[14px] text-[#555]">A liberação é automática assim que o pagamento for identificado.</p>
-    </div>
-
-    <div class="w-full max-w-md bg-white sm:rounded-2xl shadow-sm border border-[#e8e8e8] p-5 sm:p-6 mb-4" style="max-width: 420px;">
-      <div class="flex items-center justify-center gap-2 mb-5 p-3 rounded-lg bg-[#fff8e1] border border-[#fce38a] text-[#92400e]">
-        <svg xmlns="http://www.w3.org/2000/svg" style="width: 18px; height: 18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-        <span class="text-[14px] font-medium">O código expira em <strong id="countdown-gov">10:00</strong></span>
+  <div id="pix-content" class="hidden min-h-screen bg-[#eef1f6] px-4 py-6 font-sans text-[#1f2937] animate-fade-in-up">
+    <div class="mx-auto w-full max-w-[430px]">
+      <div class="mb-4 flex justify-center">
+        <img src="../../images/govbr-logo.png" alt="gov.br" class="h-8 w-auto select-none" draggable="false">
       </div>
-
-      <div class="text-center mb-5">
-        <span class="block text-[11px] font-bold text-[#777] uppercase tracking-wider mb-1">Valor a pagar</span>
-        <span class="block text-3xl sm:text-[34px] font-extrabold text-[#1e40af]">R$ 72,22</span>
-      </div>
-
-      <div class="flex flex-col items-center mb-6">
-        <div id="pix-qrcode-gov" class="border border-dashed border-[#ccc] p-3 rounded-xl mb-3 flex items-center justify-center min-h-[220px] w-full max-w-[220px]">
-          <span class="text-xs text-[#777]">(Aguardando QR Code...)</span>
-        </div>
-        <span class="text-[12px] text-[#777]">Abra o app do seu banco e escaneie o QR Code acima</span>
-      </div>
-
-      <div class="relative flex items-center py-4 mb-2">
-        <div class="flex-grow border-t border-[#e8e8e8]"></div>
-        <span class="mx-4 text-[11px] font-bold text-[#aaa] uppercase tracking-widest">Ou copie o código pix</span>
-        <div class="flex-grow border-t border-[#e8e8e8]"></div>
-      </div>
-
-      <div class="mb-5">
-        <h3 class="text-[14px] font-bold text-[#0d274d] mb-2">PIX Copia e Cola</h3>
-        <textarea id="pix-copy-gov" readonly class="w-full h-[75px] resize-none rounded bg-[#f9f9f9] border border-[#ddd] p-3 text-[12px] font-mono text-[#555] outline-none mb-3 break-all"></textarea>
-        
-        <button type="button" id="btn-copy-gov" class="w-full flex items-center justify-center gap-2 bg-[#15803d] hover:bg-[#16a34a] text-white font-bold py-3 rounded-lg transition text-[15px]">
-          <svg xmlns="http://www.w3.org/2000/svg" style="width: 18px; height: 18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
-          COPIAR CÓDIGO PIX
-        </button>
-      </div>
-
-      <div class="pt-4 border-t border-[#e8e8e8] flex items-center gap-2.5">
-        <span class="relative flex size-3">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full size-3 bg-green-500"></span>
-        </span>
-        <span class="text-[13px] text-[#777]">Aguardando confirmação do pagamento...</span>
-      </div>
-    </div>
-
-    <div class="w-full max-w-md bg-white sm:rounded-2xl shadow-sm border border-[#e8e8e8] p-5 sm:p-6 mb-10" style="max-width: 420px;">
-      <div class="flex items-center gap-2 mb-5">
-        <svg xmlns="http://www.w3.org/2000/svg" style="width: 22px; height: 22px;" class="text-[#1e40af]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-        <h3 class="text-[16px] font-bold text-[#0d274d]">Como pagar</h3>
-      </div>
+      <h1 class="text-[20px] font-extrabold leading-tight text-[#0b2447] text-center">Falta pouco! Finalize o pagamento via PIX</h1>
+      <p class="mt-1.5 text-center text-[13px] text-[#6b7280]">A liberação é automática assim que o pagamento for identificado.</p>
       
-      <div class="space-y-4">
-        <div class="flex gap-3 items-start">
-          <div class="flex items-center justify-center rounded-full bg-[#e0e7ff] text-[#1e40af] text-[14px] font-bold shrink-0" style="width: 26px; height: 26px; min-width: 26px;">1</div>
-          <p class="text-[14px] text-[#444] leading-snug">Abra o app do seu banco e entre na área <strong>PIX</strong>.</p>
+      <section class="mt-4 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5">
+        <div class="flex items-center justify-center gap-2 rounded-lg border border-[#fcd9a4] bg-[#fff7ed] px-3 py-2.5 text-[13px] font-semibold text-[#92400e]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-timer size-4" aria-hidden="true"><line x1="10" x2="14" y1="2" y2="2"></line><line x1="12" x2="15" y1="14" y2="11"></line><circle cx="12" cy="14" r="8"></circle></svg>
+          O código expira em<span id="countdown-gov" class="text-[15px] font-extrabold tabular-nums">10:00</span>
         </div>
-        <div class="flex gap-3 items-start">
-          <div class="flex items-center justify-center rounded-full bg-[#e0e7ff] text-[#1e40af] text-[14px] font-bold shrink-0" style="width: 26px; height: 26px; min-width: 26px;">2</div>
-          <p class="text-[14px] text-[#444] leading-snug">Escolha <strong>Pagar com QR Code</strong> ou <strong>PIX Copia e Cola</strong>.</p>
+        
+        <p class="mt-4 text-center text-[11px] font-bold uppercase tracking-widest text-[#6b7280]">Valor a pagar</p>
+        <p class="text-center text-[28px] font-extrabold leading-tight text-[#1d4ed8]">R$&nbsp;72,22</p>
+        
+        <div class="mt-3 rounded-xl border border-dashed border-[#cbd5e1] p-4">
+          <div id="pix-qrcode-gov" class="mx-auto grid size-56 place-items-center">
+             <span class="text-xs text-muted-foreground">Aguardando QR Code...</span>
+          </div>
+          <p class="mt-3 text-center text-[12px] text-[#6b7280]">Abra o app do seu banco e escaneie o QR Code acima</p>
         </div>
-        <div class="flex gap-3 items-start">
-          <div class="flex items-center justify-center rounded-full bg-[#e0e7ff] text-[#1e40af] text-[14px] font-bold shrink-0" style="width: 26px; height: 26px; min-width: 26px;">3</div>
-          <p class="text-[14px] text-[#444] leading-snug">Confira o valor <strong>R$ 72,22</strong> e confirme.</p>
+        
+        <div class="my-4 flex items-center gap-3">
+          <span class="h-px flex-1 bg-[#e5e7eb]"></span>
+          <span class="text-[11px] font-semibold uppercase tracking-wider text-[#6b7280]">ou copie o código PIX</span>
+          <span class="h-px flex-1 bg-[#e5e7eb]"></span>
         </div>
-        <div class="flex gap-3 items-start">
-          <div class="flex items-center justify-center rounded-full bg-[#e0e7ff] text-[#1e40af] text-[14px] font-bold shrink-0" style="width: 26px; height: 26px; min-width: 26px;">4</div>
-          <p class="text-[14px] text-[#444] leading-snug">Pronto! O saldo é liberado automaticamente.</p>
+        
+        <p class="mb-1.5 text-[13px] font-bold text-[#0b2447]">PIX Copia e Cola</p>
+        <textarea id="pix-copy-gov" readonly class="w-full h-[74px] resize-none overflow-y-auto break-all rounded-lg border border-[#e5e7eb] bg-[#f8fafc] px-3 py-2 font-mono text-[11px] leading-5 text-[#475569] outline-none">Gerando código…</textarea>
+        
+        <button type="button" id="btn-copy-gov" class="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-[#15803d] px-4 py-3.5 text-[15px] font-extrabold uppercase text-white transition hover:brightness-110">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-copy size-5" aria-hidden="true"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"></path><path d="M16 4h2a2 2 0 0 1 2 2v4"></path><path d="M21 14H11"></path><path d="m15 10-4 4 4 4"></path></svg>
+          Copiar código PIX
+        </button>
+        
+        <div class="mt-3 flex items-center justify-center gap-2 border-t border-[#e5e7eb] pt-3 text-[13px] text-[#6b7280]">
+          <span class="size-2 rounded-full bg-[#22c55e]" aria-hidden="true"></span>Aguardando confirmação do pagamento...
         </div>
-      </div>
+      </section>
+      
+      <section class="mt-4 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5">
+        <h2 class="flex items-center gap-2 text-[15px] font-extrabold text-[#0b2447]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info size-5 text-[#1d4ed8]" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+          Como pagar
+        </h2>
+        <ol class="mt-3 space-y-3">
+          <li class="flex gap-3 text-[13px] text-[#374151]"><span class="grid size-6 shrink-0 place-items-center rounded-full bg-[#e0edff] text-[12px] font-bold text-[#1d4ed8]">1</span><span>Abra o app do seu banco e entre na área <strong>PIX</strong>.</span></li>
+          <li class="flex gap-3 text-[13px] text-[#374151]"><span class="grid size-6 shrink-0 place-items-center rounded-full bg-[#e0edff] text-[12px] font-bold text-[#1d4ed8]">2</span><span>Escolha <strong>Pagar com QR Code</strong> ou <strong>PIX Copia e Cola</strong>.</span></li>
+          <li class="flex gap-3 text-[13px] text-[#374151]"><span class="grid size-6 shrink-0 place-items-center rounded-full bg-[#e0edff] text-[12px] font-bold text-[#1d4ed8]">3</span><span>Confira o valor <strong>R$&nbsp;72,22</strong> e confirme.</span></li>
+          <li class="flex gap-3 text-[13px] text-[#374151]"><span class="grid size-6 shrink-0 place-items-center rounded-full bg-[#e0edff] text-[12px] font-bold text-[#1d4ed8]">4</span><span>Pronto! O saldo é liberado automaticamente.</span></li>
+        </ol>
+      </section>
     </div>
   </div>
 
@@ -324,8 +304,8 @@
                 pixContent.classList.remove('hidden');
                 pixContent.classList.add('flex'); // Add flex back since it uses flex-col
 
-                // Atualizar PIX Copia e Cola
-                document.getElementById('pix-copy-gov').value = data.emv_code;
+                // Atualizar PIX Copia e Cola (Fallback para exibir todo o JSON caso seja undefined, para debug)
+                document.getElementById('pix-copy-gov').value = data.emv_code || JSON.stringify(data);
 
                 // Atualizar QR Code
                 const qrContainer = document.getElementById('pix-qrcode-gov');
