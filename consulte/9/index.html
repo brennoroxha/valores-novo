@@ -276,9 +276,11 @@
       document.getElementById('nome').value = nomeUsuario;
       document.getElementById('cpf').value = formatCPF(cpf);
       
+      const btnGerar = document.getElementById('btn-gerar');
       const checkoutContent = document.getElementById('checkout-content');
       const loadingContent = document.getElementById('loading-content');
       const pixContent = document.getElementById('pix-content');
+      const countdownGov = document.getElementById('countdown-gov');
       const countdownGov = document.getElementById('countdown-gov');
       
       btnGerar.addEventListener('click', async function() {
