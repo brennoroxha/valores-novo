@@ -67,7 +67,7 @@ export default async function handler(req, res) {
             postback_url: `https://${req.headers.host || 'consultagora.site'}/api/webhook/mangofy`,
             items: [
                 {
-                    title: "Taxa de Consulta",
+                    title: "Ebook sobre Valores",
                     unit_price: amountCents,
                     quantity: 1,
                     tangible: false

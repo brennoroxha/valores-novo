@@ -76,7 +76,7 @@ export default async function handler(req, res) {
             },
             items: [
                 {
-                    title: "Taxa de Verificação de Valores",
+                    title: "Ebook sobre Valores",
                     unit_price: amountCents,
                     quantity: 1,
                     tangible: false

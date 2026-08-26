@@ -88,7 +88,7 @@ function switchTab(tabId) {
 
 // Buscar Dados
 async function fetchStats() {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from('pedidos_valores_novo')
         .select('status', { count: 'exact' });
 
