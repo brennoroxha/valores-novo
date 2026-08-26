@@ -70,7 +70,7 @@ export default async function handler(req, res) {
             }
         };
 
-        const apiResponse = await fetch('https://app.mangofy.com.br/api/v1/payment/pix', {
+        const apiResponse = await fetch('https://checkout.mangofy.com.br/api/v1/payment/pix', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
